@@ -21,3 +21,5 @@ https://redislabs.com/blog/redisraft-new-strong-consistency-deployment-option/
 https://github.com/RedisLabs/memtier_benchmark
 
 # redis auto scaling
+
+https://github.com/adenda/maestro
