@@ -1,33 +1,33 @@
 ```bash
-$ cat redis.conf 
+$ cat redis.conf
 dbfilename "my_backup_file.rdb"
 save 20 3
 ```
 
 ```bash
-karuppiahn-a01:2.2 karuppiahn$ redis-server redis.conf 
+karuppiahn-a01:2.2 karuppiahn$ redis-server redis.conf
 8772:C 06 Aug 2021 11:16:27.021 # oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
 8772:C 06 Aug 2021 11:16:27.021 # Redis version=6.2.5, bits=64, commit=00000000, modified=0, pid=8772, just started
 8772:C 06 Aug 2021 11:16:27.021 # Configuration loaded
 8772:M 06 Aug 2021 11:16:27.022 * Increased maximum number of open files to 10032 (it was originally set to 256).
 8772:M 06 Aug 2021 11:16:27.022 * monotonic clock: POSIX clock_gettime
-                _._                                                  
-           _.-``__ ''-._                                             
+                _._
+           _.-``__ ''-._
       _.-``    `.  `_.  ''-._           Redis 6.2.5 (00000000/0) 64 bit
-  .-`` .-```.  ```\/    _.,_ ''-._                                  
+  .-`` .-```.  ```\/    _.,_ ''-._
  (    '      ,       .-`  | `,    )     Running in standalone mode
  |`-._`-...-` __...-.``-._|'` _.-'|     Port: 6379
  |    `-._   `._    /     _.-'    |     PID: 8772
-  `-._    `-._  `-./  _.-'    _.-'                                   
- |`-._`-._    `-.__.-'    _.-'_.-'|                                  
- |    `-._`-._        _.-'_.-'    |           https://redis.io       
-  `-._    `-._`-.__.-'_.-'    _.-'                                   
- |`-._`-._    `-.__.-'    _.-'_.-'|                                  
- |    `-._`-._        _.-'_.-'    |                                  
-  `-._    `-._`-.__.-'_.-'    _.-'                                   
-      `-._    `-.__.-'    _.-'                                       
-          `-._        _.-'                                           
-              `-.__.-'                                               
+  `-._    `-._  `-./  _.-'    _.-'
+ |`-._`-._    `-.__.-'    _.-'_.-'|
+ |    `-._`-._        _.-'_.-'    |           https://redis.io
+  `-._    `-._`-.__.-'_.-'    _.-'
+ |`-._`-._    `-.__.-'    _.-'_.-'|
+ |    `-._`-._        _.-'_.-'    |
+  `-._    `-._`-.__.-'_.-'    _.-'
+      `-._    `-.__.-'    _.-'
+          `-._        _.-'
+              `-.__.-'
 
 8772:M 06 Aug 2021 11:16:27.023 # Server initialized
 8772:M 06 Aug 2021 11:16:27.023 * Ready to accept connections
@@ -59,8 +59,8 @@ OK
 OK
 127.0.0.1:6379> set c 3
 OK
-127.0.0.1:6379> 
-127.0.0.1:6379> 
+127.0.0.1:6379>
+127.0.0.1:6379>
 127.0.0.1:6379> CONFIG GET appendonly
 1) "appendonly"
 2) "no"
@@ -86,11 +86,11 @@ OK
 OK
 127.0.0.1:6379> set e 4
 OK
-127.0.0.1:6379> 
+127.0.0.1:6379>
 ```
 
 ```bash
-$ cat redis.conf 
+$ cat redis.conf
 dbfilename "my_backup_file.rdb"
 save 20 3
 
@@ -104,7 +104,7 @@ dir "/Users/karuppiahn/projects/github.com/karuppiah7890/redis-stuff/redis-labs-
 ```bash
 karuppiahn-a01:2.2 karuppiahn$ ls
 appendonly.aof		my_backup_file.rdb	redis.conf
-karuppiahn-a01:2.2 karuppiahn$ cat appendonly.aof 
+karuppiahn-a01:2.2 karuppiahn$ cat appendonly.aof
 REDIS0009?	redis-ver6.2.5?
 redis-bits?@?ctime?'?
                      aused-mem??
@@ -127,33 +127,33 @@ $1
 e
 $1
 4
-karuppiahn-a01:2.2 karuppiahn$ 
+karuppiahn-a01:2.2 karuppiahn$
 ```
 
 ```bash
-karuppiahn-a01:2.2 karuppiahn$ redis-server redis.conf 
+karuppiahn-a01:2.2 karuppiahn$ redis-server redis.conf
 9433:C 06 Aug 2021 11:19:24.021 # oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
 9433:C 06 Aug 2021 11:19:24.021 # Redis version=6.2.5, bits=64, commit=00000000, modified=0, pid=9433, just started
 9433:C 06 Aug 2021 11:19:24.021 # Configuration loaded
 9433:M 06 Aug 2021 11:19:24.022 * Increased maximum number of open files to 10032 (it was originally set to 256).
 9433:M 06 Aug 2021 11:19:24.022 * monotonic clock: POSIX clock_gettime
-                _._                                                  
-           _.-``__ ''-._                                             
+                _._
+           _.-``__ ''-._
       _.-``    `.  `_.  ''-._           Redis 6.2.5 (00000000/0) 64 bit
-  .-`` .-```.  ```\/    _.,_ ''-._                                  
+  .-`` .-```.  ```\/    _.,_ ''-._
  (    '      ,       .-`  | `,    )     Running in standalone mode
  |`-._`-...-` __...-.``-._|'` _.-'|     Port: 6379
  |    `-._   `._    /     _.-'    |     PID: 9433
-  `-._    `-._  `-./  _.-'    _.-'                                   
- |`-._`-._    `-.__.-'    _.-'_.-'|                                  
- |    `-._`-._        _.-'_.-'    |           https://redis.io       
-  `-._    `-._`-.__.-'_.-'    _.-'                                   
- |`-._`-._    `-.__.-'    _.-'_.-'|                                  
- |    `-._`-._        _.-'_.-'    |                                  
-  `-._    `-._`-.__.-'_.-'    _.-'                                   
-      `-._    `-.__.-'    _.-'                                       
-          `-._        _.-'                                           
-              `-.__.-'                                               
+  `-._    `-._  `-./  _.-'    _.-'
+ |`-._`-._    `-.__.-'    _.-'_.-'|
+ |    `-._`-._        _.-'_.-'    |           https://redis.io
+  `-._    `-._`-.__.-'_.-'    _.-'
+ |`-._`-._    `-.__.-'    _.-'_.-'|
+ |    `-._`-._        _.-'_.-'    |
+  `-._    `-._`-.__.-'_.-'    _.-'
+      `-._    `-.__.-'    _.-'
+          `-._        _.-'
+              `-.__.-'
 
 9433:M 06 Aug 2021 11:19:24.024 # Server initialized
 9433:M 06 Aug 2021 11:19:24.024 * Reading RDB preamble from AOF file...
@@ -170,7 +170,7 @@ karuppiahn-a01:2.2 karuppiahn$ redis-server redis.conf
 9433:M 06 Aug 2021 11:19:40.359 * Saving the final RDB snapshot before exiting.
 9433:M 06 Aug 2021 11:19:40.360 * DB saved on disk
 9433:M 06 Aug 2021 11:19:40.360 # Redis is now ready to exit, bye bye...
-karuppiahn-a01:2.2 karuppiahn$ 
+karuppiahn-a01:2.2 karuppiahn$
 ```
 
 ```bash
@@ -191,7 +191,181 @@ karuppiahn-a01:2.2 karuppiahn$
 "1"
 127.0.0.1:6379> get e
 "4"
-127.0.0.1:6379> 
-karuppiahn-a01:2.2 karuppiahn$ 
+127.0.0.1:6379>
+karuppiahn-a01:2.2 karuppiahn$
 ```
+
+I was wondering if the redis server started using the RDB or AOF or what
+
+Checking the logs of the server, this is what I found
+
+```bash
+karuppiahn-a01:2.2 karuppiahn$ redis-server redis.conf
+8471:C 06 Aug 2021 13:05:18.420 # oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
+8471:C 06 Aug 2021 13:05:18.420 # Redis version=6.2.5, bits=64, commit=00000000, modified=0, pid=8471, just started
+8471:C 06 Aug 2021 13:05:18.420 # Configuration loaded
+8471:M 06 Aug 2021 13:05:18.421 * Increased maximum number of open files to 10032 (it was originally set to 256).
+8471:M 06 Aug 2021 13:05:18.421 * monotonic clock: POSIX clock_gettime
+                _._
+           _.-``__ ''-._
+      _.-``    `.  `_.  ''-._           Redis 6.2.5 (00000000/0) 64 bit
+  .-`` .-```.  ```\/    _.,_ ''-._
+ (    '      ,       .-`  | `,    )     Running in standalone mode
+ |`-._`-...-` __...-.``-._|'` _.-'|     Port: 6379
+ |    `-._   `._    /     _.-'    |     PID: 8471
+  `-._    `-._  `-./  _.-'    _.-'
+ |`-._`-._    `-.__.-'    _.-'_.-'|
+ |    `-._`-._        _.-'_.-'    |           https://redis.io
+  `-._    `-._`-.__.-'_.-'    _.-'
+ |`-._`-._    `-.__.-'    _.-'_.-'|
+ |    `-._`-._        _.-'_.-'    |
+  `-._    `-._`-.__.-'_.-'    _.-'
+      `-._    `-.__.-'    _.-'
+          `-._        _.-'
+              `-.__.-'
+
+8471:M 06 Aug 2021 13:05:18.422 # Server initialized
+8471:M 06 Aug 2021 13:05:18.423 * Reading RDB preamble from AOF file...
+8471:M 06 Aug 2021 13:05:18.423 * Loading RDB produced by version 6.2.5
+8471:M 06 Aug 2021 13:05:18.423 * RDB age 6415 seconds
+8471:M 06 Aug 2021 13:05:18.423 * RDB memory usage when created 1.06 Mb
+8471:M 06 Aug 2021 13:05:18.423 * RDB has an AOF tail
+8471:M 06 Aug 2021 13:05:18.423 * Reading the remaining AOF tail...
+8471:M 06 Aug 2021 13:05:18.423 * DB loaded from append only file: 0.001 seconds
+8471:M 06 Aug 2021 13:05:18.423 * Ready to accept connections
+^C8471:signal-handler (1628235331) Received SIGINT scheduling shutdown...
+8471:M 06 Aug 2021 13:05:31.680 # User requested shutdown...
+8471:M 06 Aug 2021 13:05:31.680 * Calling fsync() on the AOF file.
+8471:M 06 Aug 2021 13:05:31.680 * Saving the final RDB snapshot before exiting.
+8471:M 06 Aug 2021 13:05:31.682 * DB saved on disk
+8471:M 06 Aug 2021 13:05:31.683 # Redis is now ready to exit, bye bye...
+karuppiahn-a01:2.2 karuppiahn$ rm -rfv my_backup_file.rdb
+my_backup_file.rdb
+karuppiahn-a01:2.2 karuppiahn$ redis-server redis.conf
+8482:C 06 Aug 2021 13:05:43.835 # oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
+8482:C 06 Aug 2021 13:05:43.835 # Redis version=6.2.5, bits=64, commit=00000000, modified=0, pid=8482, just started
+8482:C 06 Aug 2021 13:05:43.835 # Configuration loaded
+8482:M 06 Aug 2021 13:05:43.836 * Increased maximum number of open files to 10032 (it was originally set to 256).
+8482:M 06 Aug 2021 13:05:43.836 * monotonic clock: POSIX clock_gettime
+                _._
+           _.-``__ ''-._
+      _.-``    `.  `_.  ''-._           Redis 6.2.5 (00000000/0) 64 bit
+  .-`` .-```.  ```\/    _.,_ ''-._
+ (    '      ,       .-`  | `,    )     Running in standalone mode
+ |`-._`-...-` __...-.``-._|'` _.-'|     Port: 6379
+ |    `-._   `._    /     _.-'    |     PID: 8482
+  `-._    `-._  `-./  _.-'    _.-'
+ |`-._`-._    `-.__.-'    _.-'_.-'|
+ |    `-._`-._        _.-'_.-'    |           https://redis.io
+  `-._    `-._`-.__.-'_.-'    _.-'
+ |`-._`-._    `-.__.-'    _.-'_.-'|
+ |    `-._`-._        _.-'_.-'    |
+  `-._    `-._`-.__.-'_.-'    _.-'
+      `-._    `-.__.-'    _.-'
+          `-._        _.-'
+              `-.__.-'
+
+8482:M 06 Aug 2021 13:05:43.837 # Server initialized
+8482:M 06 Aug 2021 13:05:43.837 * Reading RDB preamble from AOF file...
+8482:M 06 Aug 2021 13:05:43.837 * Loading RDB produced by version 6.2.5
+8482:M 06 Aug 2021 13:05:43.837 * RDB age 6440 seconds
+8482:M 06 Aug 2021 13:05:43.837 * RDB memory usage when created 1.06 Mb
+8482:M 06 Aug 2021 13:05:43.837 * RDB has an AOF tail
+8482:M 06 Aug 2021 13:05:43.837 * Reading the remaining AOF tail...
+8482:M 06 Aug 2021 13:05:43.837 * DB loaded from append only file: 0.000 seconds
+8482:M 06 Aug 2021 13:05:43.837 * Ready to accept connections
+
+^C8482:signal-handler (1628235375) Received SIGINT scheduling shutdown...
+8482:M 06 Aug 2021 13:06:15.313 # User requested shutdown...
+8482:M 06 Aug 2021 13:06:15.313 * Calling fsync() on the AOF file.
+8482:M 06 Aug 2021 13:06:15.313 * Saving the final RDB snapshot before exiting.
+8482:M 06 Aug 2021 13:06:15.315 * DB saved on disk
+8482:M 06 Aug 2021 13:06:15.315 # Redis is now ready to exit, bye bye...
+karuppiahn-a01:2.2 karuppiahn$ gst
+On branch main
+Your branch is up to date with 'origin/main'.
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   my_backup_file.rdb
+
+no changes added to commit (use "git add" and/or "git commit -a")
+karuppiahn-a01:2.2 karuppiahn$ gco .
+Updated 1 path from the index
+```
+
+```bash
+karuppiahn-a01:2.2 karuppiahn$ redis-cli
+127.0.0.1:6379> keys *
+1) "b"
+2) "c"
+3) "a"
+4) "d"
+5) "e"
+```
+
+Looks like what mattered was the AOF file
+
+It's evident from the server logs
+
+```bash
+8482:M 06 Aug 2021 13:05:43.837 * Reading RDB preamble from AOF file...
+8482:M 06 Aug 2021 13:05:43.837 * Loading RDB produced by version 6.2.5
+8482:M 06 Aug 2021 13:05:43.837 * RDB age 6440 seconds
+8482:M 06 Aug 2021 13:05:43.837 * RDB memory usage when created 1.06 Mb
+8482:M 06 Aug 2021 13:05:43.837 * RDB has an AOF tail
+8482:M 06 Aug 2021 13:05:43.837 * Reading the remaining AOF tail...
+8482:M 06 Aug 2021 13:05:43.837 * DB loaded from append only file: 0.000 seconds
+```
+
+It's reading the AOF file. There's also a mention of something related to RDB, I don't know. But the term `RDB` showed up in the logs even when RDB file was removed but yeah the config file had information about the RDB, about how to save to it
+
+With both AOF file and RDB removed no data was present in the DB after restart, of course, because I removed all the backup / old data files
+
+```bash
+karuppiahn-a01:2.2 karuppiahn$ rm -rfv appendonly.aof
+appendonly.aof
+karuppiahn-a01:2.2 karuppiahn$ redis-server redis.conf
+8849:C 06 Aug 2021 13:06:28.788 # oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
+8849:C 06 Aug 2021 13:06:28.788 # Redis version=6.2.5, bits=64, commit=00000000, modified=0, pid=8849, just started
+8849:C 06 Aug 2021 13:06:28.788 # Configuration loaded
+8849:M 06 Aug 2021 13:06:28.789 * Increased maximum number of open files to 10032 (it was originally set to 256).
+8849:M 06 Aug 2021 13:06:28.789 * monotonic clock: POSIX clock_gettime
+                _._
+           _.-``__ ''-._
+      _.-``    `.  `_.  ''-._           Redis 6.2.5 (00000000/0) 64 bit
+  .-`` .-```.  ```\/    _.,_ ''-._
+ (    '      ,       .-`  | `,    )     Running in standalone mode
+ |`-._`-...-` __...-.``-._|'` _.-'|     Port: 6379
+ |    `-._   `._    /     _.-'    |     PID: 8849
+  `-._    `-._  `-./  _.-'    _.-'
+ |`-._`-._    `-.__.-'    _.-'_.-'|
+ |    `-._`-._        _.-'_.-'    |           https://redis.io
+  `-._    `-._`-.__.-'_.-'    _.-'
+ |`-._`-._    `-.__.-'    _.-'_.-'|
+ |    `-._`-._        _.-'_.-'    |
+  `-._    `-._`-.__.-'_.-'    _.-'
+      `-._    `-.__.-'    _.-'
+          `-._        _.-'
+              `-.__.-'
+
+8849:M 06 Aug 2021 13:06:28.790 # Server initialized
+8849:M 06 Aug 2021 13:06:28.790 * Ready to accept connections
+^C8849:signal-handler (1628235396) Received SIGINT scheduling shutdown...
+8849:M 06 Aug 2021 13:06:36.171 # User requested shutdown...
+8849:M 06 Aug 2021 13:06:36.171 * Calling fsync() on the AOF file.
+8849:M 06 Aug 2021 13:06:36.171 * Saving the final RDB snapshot before exiting.
+8849:M 06 Aug 2021 13:06:36.173 * DB saved on disk
+8849:M 06 Aug 2021 13:06:36.173 # Redis is now ready to exit, bye bye...
+karuppiahn-a01:2.2 karuppiahn$
+```
+
+```bash
+127.0.0.1:6379> keys *
+(empty array)
+```
+
+Interesting! :D
+
 
