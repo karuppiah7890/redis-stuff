@@ -368,4 +368,4 @@ karuppiahn-a01:2.2 karuppiahn$
 
 Interesting! :D
 
-
+Things I can read more about are - fsync , and some kernel level stuff
