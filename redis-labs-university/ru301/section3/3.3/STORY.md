@@ -30,7 +30,7 @@ Anyways, here there's no proxy etc, clients have to simply be aware of the HA sy
 
 Now, basically, looks like the sentinel needs to know about the primary - to check it and see if it's up and running and also know about the replicas to be able to reconfigure them when primary changes. I'm reading more now in https://redis.io/topics/sentinel and I just read that it's aware of the primary and the replicas, which makes sense for the above mentioned reasons
 
-I can see some interesting examples and ideas in 
+I can see some interesting examples and ideas in
 
 https://redis.io/topics/sentinel
 
@@ -53,29 +53,29 @@ karuppiahn-a01:section3 karuppiahn$ ls
 karuppiahn-a01:section3 karuppiahn$ cd 3.2
 karuppiahn-a01:3.2 karuppiahn$ ls
 STORY.md	dump.rdb	primary.aof	primary.conf	replica.conf
-karuppiahn-a01:3.2 karuppiahn$ redis-server primary.conf 
+karuppiahn-a01:3.2 karuppiahn$ redis-server primary.conf
 5609:C 09 Aug 2021 07:39:40.384 # oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
 5609:C 09 Aug 2021 07:39:40.384 # Redis version=6.2.5, bits=64, commit=00000000, modified=0, pid=5609, just started
 5609:C 09 Aug 2021 07:39:40.384 # Configuration loaded
 5609:M 09 Aug 2021 07:39:40.385 * Increased maximum number of open files to 10032 (it was originally set to 256).
 5609:M 09 Aug 2021 07:39:40.385 * monotonic clock: POSIX clock_gettime
-                _._                                                  
-           _.-``__ ''-._                                             
+                _._
+           _.-``__ ''-._
       _.-``    `.  `_.  ''-._           Redis 6.2.5 (00000000/0) 64 bit
-  .-`` .-```.  ```\/    _.,_ ''-._                                  
+  .-`` .-```.  ```\/    _.,_ ''-._
  (    '      ,       .-`  | `,    )     Running in standalone mode
  |`-._`-...-` __...-.``-._|'` _.-'|     Port: 6379
  |    `-._   `._    /     _.-'    |     PID: 5609
-  `-._    `-._  `-./  _.-'    _.-'                                   
- |`-._`-._    `-.__.-'    _.-'_.-'|                                  
- |    `-._`-._        _.-'_.-'    |           https://redis.io       
-  `-._    `-._`-.__.-'_.-'    _.-'                                   
- |`-._`-._    `-.__.-'    _.-'_.-'|                                  
- |    `-._`-._        _.-'_.-'    |                                  
-  `-._    `-._`-.__.-'_.-'    _.-'                                   
-      `-._    `-.__.-'    _.-'                                       
-          `-._        _.-'                                           
-              `-.__.-'                                               
+  `-._    `-._  `-./  _.-'    _.-'
+ |`-._`-._    `-.__.-'    _.-'_.-'|
+ |    `-._`-._        _.-'_.-'    |           https://redis.io
+  `-._    `-._`-.__.-'_.-'    _.-'
+ |`-._`-._    `-.__.-'    _.-'_.-'|
+ |    `-._`-._        _.-'_.-'    |
+  `-._    `-._`-.__.-'_.-'    _.-'
+      `-._    `-.__.-'    _.-'
+          `-._        _.-'
+              `-.__.-'
 
 5609:M 09 Aug 2021 07:39:40.386 # Server initialized
 5609:M 09 Aug 2021 07:39:40.387 * DB loaded from append only file: 0.001 seconds
@@ -94,29 +94,29 @@ Replica -
 
 ```bash
 Last login: Mon Aug  9 07:38:43 on ttys001
-karuppiahn-a01:3.2 karuppiahn$ redis-server replica.conf 
+karuppiahn-a01:3.2 karuppiahn$ redis-server replica.conf
 5933:C 09 Aug 2021 07:39:46.124 # oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
 5933:C 09 Aug 2021 07:39:46.124 # Redis version=6.2.5, bits=64, commit=00000000, modified=0, pid=5933, just started
 5933:C 09 Aug 2021 07:39:46.124 # Configuration loaded
 5933:S 09 Aug 2021 07:39:46.125 * Increased maximum number of open files to 10032 (it was originally set to 256).
 5933:S 09 Aug 2021 07:39:46.126 * monotonic clock: POSIX clock_gettime
-                _._                                                  
-           _.-``__ ''-._                                             
+                _._
+           _.-``__ ''-._
       _.-``    `.  `_.  ''-._           Redis 6.2.5 (00000000/0) 64 bit
-  .-`` .-```.  ```\/    _.,_ ''-._                                  
+  .-`` .-```.  ```\/    _.,_ ''-._
  (    '      ,       .-`  | `,    )     Running in standalone mode
  |`-._`-...-` __...-.``-._|'` _.-'|     Port: 6380
  |    `-._   `._    /     _.-'    |     PID: 5933
-  `-._    `-._  `-./  _.-'    _.-'                                   
- |`-._`-._    `-.__.-'    _.-'_.-'|                                  
- |    `-._`-._        _.-'_.-'    |           https://redis.io       
-  `-._    `-._`-.__.-'_.-'    _.-'                                   
- |`-._`-._    `-.__.-'    _.-'_.-'|                                  
- |    `-._`-._        _.-'_.-'    |                                  
-  `-._    `-._`-.__.-'_.-'    _.-'                                   
-      `-._    `-.__.-'    _.-'                                       
-          `-._        _.-'                                           
-              `-.__.-'                                               
+  `-._    `-._  `-./  _.-'    _.-'
+ |`-._`-._    `-.__.-'    _.-'_.-'|
+ |    `-._`-._        _.-'_.-'    |           https://redis.io
+  `-._    `-._`-.__.-'_.-'    _.-'
+ |`-._`-._    `-.__.-'    _.-'_.-'|
+ |    `-._`-._        _.-'_.-'    |
+  `-._    `-._`-.__.-'_.-'    _.-'
+      `-._    `-.__.-'    _.-'
+          `-._        _.-'
+              `-.__.-'
 
 5933:S 09 Aug 2021 07:39:46.127 # Server initialized
 5933:S 09 Aug 2021 07:39:46.127 * Loading RDB produced by version 6.2.5
@@ -166,7 +166,7 @@ OK
 3) 1) 1) "127.0.0.1"
       2) "6380"
       3) "42"
-127.0.0.1:6379> 
+127.0.0.1:6379>
 ```
 
 I ran sentinels then after creating configs
@@ -175,50 +175,50 @@ I ran sentinels then after creating configs
 karuppiahn-a01:3.3 karuppiahn$ vi sentinel1.conf
 karuppiahn-a01:3.3 karuppiahn$ vi sentinel2.conf
 karuppiahn-a01:3.3 karuppiahn$ vi sentinel3.conf
-karuppiahn-a01:3.3 karuppiahn$ cat sentinel1.conf 
+karuppiahn-a01:3.3 karuppiahn$ cat sentinel1.conf
 port 5000
 sentinel monitor mymaster 127.0.0.1 6379 2
 sentinel down-after-milliseconds mymaster 5000
 sentinel failover-timeout mymaster 60000
 sentinel parallel-syncs mymaster 1
 
-karuppiahn-a01:3.3 karuppiahn$ cat sentinel2.conf 
+karuppiahn-a01:3.3 karuppiahn$ cat sentinel2.conf
 port 5001
 sentinel monitor mymaster 127.0.0.1 6379 2
 sentinel down-after-milliseconds mymaster 5000
 sentinel failover-timeout mymaster 60000
 sentinel parallel-syncs mymaster 1
 
-karuppiahn-a01:3.3 karuppiahn$ cat sentinel3.conf 
+karuppiahn-a01:3.3 karuppiahn$ cat sentinel3.conf
 port 5002
 sentinel monitor mymaster 127.0.0.1 6379 2
 sentinel down-after-milliseconds mymaster 5000
 sentinel failover-timeout mymaster 60000
 sentinel parallel-syncs mymaster 1
 
-karuppiahn-a01:3.3 karuppiahn$ redis-sentinel sentinel1.conf 
+karuppiahn-a01:3.3 karuppiahn$ redis-sentinel sentinel1.conf
 6618:X 09 Aug 2021 07:41:42.731 # oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
 6618:X 09 Aug 2021 07:41:42.731 # Redis version=6.2.5, bits=64, commit=00000000, modified=0, pid=6618, just started
 6618:X 09 Aug 2021 07:41:42.731 # Configuration loaded
 6618:X 09 Aug 2021 07:41:42.732 * Increased maximum number of open files to 10032 (it was originally set to 256).
 6618:X 09 Aug 2021 07:41:42.732 * monotonic clock: POSIX clock_gettime
-                _._                                                  
-           _.-``__ ''-._                                             
+                _._
+           _.-``__ ''-._
       _.-``    `.  `_.  ''-._           Redis 6.2.5 (00000000/0) 64 bit
-  .-`` .-```.  ```\/    _.,_ ''-._                                  
+  .-`` .-```.  ```\/    _.,_ ''-._
  (    '      ,       .-`  | `,    )     Running in sentinel mode
  |`-._`-...-` __...-.``-._|'` _.-'|     Port: 5000
  |    `-._   `._    /     _.-'    |     PID: 6618
-  `-._    `-._  `-./  _.-'    _.-'                                   
- |`-._`-._    `-.__.-'    _.-'_.-'|                                  
- |    `-._`-._        _.-'_.-'    |           https://redis.io       
-  `-._    `-._`-.__.-'_.-'    _.-'                                   
- |`-._`-._    `-.__.-'    _.-'_.-'|                                  
- |    `-._`-._        _.-'_.-'    |                                  
-  `-._    `-._`-.__.-'_.-'    _.-'                                   
-      `-._    `-.__.-'    _.-'                                       
-          `-._        _.-'                                           
-              `-.__.-'                                               
+  `-._    `-._  `-./  _.-'    _.-'
+ |`-._`-._    `-.__.-'    _.-'_.-'|
+ |    `-._`-._        _.-'_.-'    |           https://redis.io
+  `-._    `-._`-.__.-'_.-'    _.-'
+ |`-._`-._    `-.__.-'    _.-'_.-'|
+ |    `-._`-._        _.-'_.-'    |
+  `-._    `-._`-.__.-'_.-'    _.-'
+      `-._    `-.__.-'    _.-'
+          `-._        _.-'
+              `-.__.-'
 
 6618:X 09 Aug 2021 07:41:42.735 # Sentinel ID is abe94391011010eb7a991a301c9129fac5ec0409
 6618:X 09 Aug 2021 07:41:42.735 # +monitor master mymaster 127.0.0.1 6379 quorum 2
@@ -227,29 +227,29 @@ karuppiahn-a01:3.3 karuppiahn$ redis-sentinel sentinel1.conf
 
 ```bash
 Last login: Mon Aug  9 07:40:19 on ttys004
-karuppiahn-a01:3.3 karuppiahn$ redis-sentinel sentinel2.conf 
+karuppiahn-a01:3.3 karuppiahn$ redis-sentinel sentinel2.conf
 6953:X 09 Aug 2021 07:41:49.330 # oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
 6953:X 09 Aug 2021 07:41:49.330 # Redis version=6.2.5, bits=64, commit=00000000, modified=0, pid=6953, just started
 6953:X 09 Aug 2021 07:41:49.330 # Configuration loaded
 6953:X 09 Aug 2021 07:41:49.331 * Increased maximum number of open files to 10032 (it was originally set to 256).
 6953:X 09 Aug 2021 07:41:49.331 * monotonic clock: POSIX clock_gettime
-                _._                                                  
-           _.-``__ ''-._                                             
+                _._
+           _.-``__ ''-._
       _.-``    `.  `_.  ''-._           Redis 6.2.5 (00000000/0) 64 bit
-  .-`` .-```.  ```\/    _.,_ ''-._                                  
+  .-`` .-```.  ```\/    _.,_ ''-._
  (    '      ,       .-`  | `,    )     Running in sentinel mode
  |`-._`-...-` __...-.``-._|'` _.-'|     Port: 5001
  |    `-._   `._    /     _.-'    |     PID: 6953
-  `-._    `-._  `-./  _.-'    _.-'                                   
- |`-._`-._    `-.__.-'    _.-'_.-'|                                  
- |    `-._`-._        _.-'_.-'    |           https://redis.io       
-  `-._    `-._`-.__.-'_.-'    _.-'                                   
- |`-._`-._    `-.__.-'    _.-'_.-'|                                  
- |    `-._`-._        _.-'_.-'    |                                  
-  `-._    `-._`-.__.-'_.-'    _.-'                                   
-      `-._    `-.__.-'    _.-'                                       
-          `-._        _.-'                                           
-              `-.__.-'                                               
+  `-._    `-._  `-./  _.-'    _.-'
+ |`-._`-._    `-.__.-'    _.-'_.-'|
+ |    `-._`-._        _.-'_.-'    |           https://redis.io
+  `-._    `-._`-.__.-'_.-'    _.-'
+ |`-._`-._    `-.__.-'    _.-'_.-'|
+ |    `-._`-._        _.-'_.-'    |
+  `-._    `-._`-.__.-'_.-'    _.-'
+      `-._    `-.__.-'    _.-'
+          `-._        _.-'
+              `-.__.-'
 
 6953:X 09 Aug 2021 07:41:49.334 # Sentinel ID is 89345ea44224358e6c356a1202bcf8515ce58f77
 6953:X 09 Aug 2021 07:41:49.334 # +monitor master mymaster 127.0.0.1 6379 quorum 2
@@ -258,29 +258,29 @@ karuppiahn-a01:3.3 karuppiahn$ redis-sentinel sentinel2.conf
 
 ```bash
 Last login: Mon Aug  9 07:41:45 on ttys005
-karuppiahn-a01:3.3 karuppiahn$ redis-sentinel sentinel3.conf 
+karuppiahn-a01:3.3 karuppiahn$ redis-sentinel sentinel3.conf
 7293:X 09 Aug 2021 07:41:54.568 # oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
 7293:X 09 Aug 2021 07:41:54.568 # Redis version=6.2.5, bits=64, commit=00000000, modified=0, pid=7293, just started
 7293:X 09 Aug 2021 07:41:54.568 # Configuration loaded
 7293:X 09 Aug 2021 07:41:54.569 * Increased maximum number of open files to 10032 (it was originally set to 256).
 7293:X 09 Aug 2021 07:41:54.569 * monotonic clock: POSIX clock_gettime
-                _._                                                  
-           _.-``__ ''-._                                             
+                _._
+           _.-``__ ''-._
       _.-``    `.  `_.  ''-._           Redis 6.2.5 (00000000/0) 64 bit
-  .-`` .-```.  ```\/    _.,_ ''-._                                  
+  .-`` .-```.  ```\/    _.,_ ''-._
  (    '      ,       .-`  | `,    )     Running in sentinel mode
  |`-._`-...-` __...-.``-._|'` _.-'|     Port: 5002
  |    `-._   `._    /     _.-'    |     PID: 7293
-  `-._    `-._  `-./  _.-'    _.-'                                   
- |`-._`-._    `-.__.-'    _.-'_.-'|                                  
- |    `-._`-._        _.-'_.-'    |           https://redis.io       
-  `-._    `-._`-.__.-'_.-'    _.-'                                   
- |`-._`-._    `-.__.-'    _.-'_.-'|                                  
- |    `-._`-._        _.-'_.-'    |                                  
-  `-._    `-._`-.__.-'_.-'    _.-'                                   
-      `-._    `-.__.-'    _.-'                                       
-          `-._        _.-'                                           
-              `-.__.-'                                               
+  `-._    `-._  `-./  _.-'    _.-'
+ |`-._`-._    `-.__.-'    _.-'_.-'|
+ |    `-._`-._        _.-'_.-'    |           https://redis.io
+  `-._    `-._`-.__.-'_.-'    _.-'
+ |`-._`-._    `-.__.-'    _.-'_.-'|
+ |    `-._`-._        _.-'_.-'    |
+  `-._    `-._`-.__.-'_.-'    _.-'
+      `-._    `-.__.-'    _.-'
+          `-._        _.-'
+              `-.__.-'
 
 7293:X 09 Aug 2021 07:41:54.571 # Sentinel ID is 3708e850553a9e459c3231cd5cd500674c04e22f
 7293:X 09 Aug 2021 07:41:54.571 # +monitor master mymaster 127.0.0.1 6379 quorum 2
@@ -380,7 +380,7 @@ rekaruppiahn-a01:3.3 karuppiahn$ redis-cli -p 5000
 40) "60000"
 41) "parallel-syncs"
 42) "1"
-127.0.0.1:5000> 
+127.0.0.1:5000>
 ```
 
 It says 0 for `num-other-sentinels`. It hasn't discovered other sentinels.
@@ -394,8 +394,8 @@ The one thing that seems like a problem is that my primary and replica have pass
 Now I changed the sentinel configs
 
 ```bash
-karuppiahn-a01:3.3 karuppiahn$ vi sentinel1.conf 
-karuppiahn-a01:3.3 karuppiahn$ cat sentinel1.conf 
+karuppiahn-a01:3.3 karuppiahn$ vi sentinel1.conf
+karuppiahn-a01:3.3 karuppiahn$ cat sentinel1.conf
 port 5000
 sentinel monitor mymaster 127.0.0.1 6379 2
 sentinel down-after-milliseconds mymaster 5000
@@ -410,7 +410,7 @@ sentinel myid abe94391011010eb7a991a301c9129fac5ec0409
 sentinel config-epoch mymaster 0
 sentinel leader-epoch mymaster 0
 sentinel current-epoch 0
-karuppiahn-a01:3.3 karuppiahn$ cat sentinel2.conf 
+karuppiahn-a01:3.3 karuppiahn$ cat sentinel2.conf
 port 5001
 sentinel monitor mymaster 127.0.0.1 6379 2
 sentinel down-after-milliseconds mymaster 5000
@@ -425,7 +425,7 @@ sentinel myid 89345ea44224358e6c356a1202bcf8515ce58f77
 sentinel config-epoch mymaster 0
 sentinel leader-epoch mymaster 0
 sentinel current-epoch 0
-karuppiahn-a01:3.3 karuppiahn$ cat sentinel3.conf 
+karuppiahn-a01:3.3 karuppiahn$ cat sentinel3.conf
 port 5002
 sentinel monitor mymaster 127.0.0.1 6379 2
 sentinel down-after-milliseconds mymaster 5000
@@ -440,35 +440,35 @@ sentinel myid 3708e850553a9e459c3231cd5cd500674c04e22f
 sentinel config-epoch mymaster 0
 sentinel leader-epoch mymaster 0
 sentinel current-epoch 0
-karuppiahn-a01:3.3 karuppiahn$ 
+karuppiahn-a01:3.3 karuppiahn$
 ```
 
 Woah. Yes. It worked.
 
 ```bash
-karuppiahn-a01:3.3 karuppiahn$ redis-sentinel sentinel1.conf 
+karuppiahn-a01:3.3 karuppiahn$ redis-sentinel sentinel1.conf
 10129:X 09 Aug 2021 07:54:45.543 # oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
 10129:X 09 Aug 2021 07:54:45.543 # Redis version=6.2.5, bits=64, commit=00000000, modified=0, pid=10129, just started
 10129:X 09 Aug 2021 07:54:45.543 # Configuration loaded
 10129:X 09 Aug 2021 07:54:45.544 * Increased maximum number of open files to 10032 (it was originally set to 256).
 10129:X 09 Aug 2021 07:54:45.544 * monotonic clock: POSIX clock_gettime
-                _._                                                  
-           _.-``__ ''-._                                             
+                _._
+           _.-``__ ''-._
       _.-``    `.  `_.  ''-._           Redis 6.2.5 (00000000/0) 64 bit
-  .-`` .-```.  ```\/    _.,_ ''-._                                  
+  .-`` .-```.  ```\/    _.,_ ''-._
  (    '      ,       .-`  | `,    )     Running in sentinel mode
  |`-._`-...-` __...-.``-._|'` _.-'|     Port: 5000
  |    `-._   `._    /     _.-'    |     PID: 10129
-  `-._    `-._  `-./  _.-'    _.-'                                   
- |`-._`-._    `-.__.-'    _.-'_.-'|                                  
- |    `-._`-._        _.-'_.-'    |           https://redis.io       
-  `-._    `-._`-.__.-'_.-'    _.-'                                   
- |`-._`-._    `-.__.-'    _.-'_.-'|                                  
- |    `-._`-._        _.-'_.-'    |                                  
-  `-._    `-._`-.__.-'_.-'    _.-'                                   
-      `-._    `-.__.-'    _.-'                                       
-          `-._        _.-'                                           
-              `-.__.-'                                               
+  `-._    `-._  `-./  _.-'    _.-'
+ |`-._`-._    `-.__.-'    _.-'_.-'|
+ |    `-._`-._        _.-'_.-'    |           https://redis.io
+  `-._    `-._`-.__.-'_.-'    _.-'
+ |`-._`-._    `-.__.-'    _.-'_.-'|
+ |    `-._`-._        _.-'_.-'    |
+  `-._    `-._`-.__.-'_.-'    _.-'
+      `-._    `-.__.-'    _.-'
+          `-._        _.-'
+              `-.__.-'
 
 10129:X 09 Aug 2021 07:54:45.545 # Sentinel ID is abe94391011010eb7a991a301c9129fac5ec0409
 10129:X 09 Aug 2021 07:54:45.545 # +monitor master mymaster 127.0.0.1 6379 quorum 2
@@ -478,29 +478,29 @@ karuppiahn-a01:3.3 karuppiahn$ redis-sentinel sentinel1.conf
 ```
 
 ```bash
-karuppiahn-a01:3.3 karuppiahn$ redis-sentinel sentinel2.conf 
+karuppiahn-a01:3.3 karuppiahn$ redis-sentinel sentinel2.conf
 10144:X 09 Aug 2021 07:54:58.352 # oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
 10144:X 09 Aug 2021 07:54:58.352 # Redis version=6.2.5, bits=64, commit=00000000, modified=0, pid=10144, just started
 10144:X 09 Aug 2021 07:54:58.352 # Configuration loaded
 10144:X 09 Aug 2021 07:54:58.353 * Increased maximum number of open files to 10032 (it was originally set to 256).
 10144:X 09 Aug 2021 07:54:58.353 * monotonic clock: POSIX clock_gettime
-                _._                                                  
-           _.-``__ ''-._                                             
+                _._
+           _.-``__ ''-._
       _.-``    `.  `_.  ''-._           Redis 6.2.5 (00000000/0) 64 bit
-  .-`` .-```.  ```\/    _.,_ ''-._                                  
+  .-`` .-```.  ```\/    _.,_ ''-._
  (    '      ,       .-`  | `,    )     Running in sentinel mode
  |`-._`-...-` __...-.``-._|'` _.-'|     Port: 5001
  |    `-._   `._    /     _.-'    |     PID: 10144
-  `-._    `-._  `-./  _.-'    _.-'                                   
- |`-._`-._    `-.__.-'    _.-'_.-'|                                  
- |    `-._`-._        _.-'_.-'    |           https://redis.io       
-  `-._    `-._`-.__.-'_.-'    _.-'                                   
- |`-._`-._    `-.__.-'    _.-'_.-'|                                  
- |    `-._`-._        _.-'_.-'    |                                  
-  `-._    `-._`-.__.-'_.-'    _.-'                                   
-      `-._    `-.__.-'    _.-'                                       
-          `-._        _.-'                                           
-              `-.__.-'                                               
+  `-._    `-._  `-./  _.-'    _.-'
+ |`-._`-._    `-.__.-'    _.-'_.-'|
+ |    `-._`-._        _.-'_.-'    |           https://redis.io
+  `-._    `-._`-.__.-'_.-'    _.-'
+ |`-._`-._    `-.__.-'    _.-'_.-'|
+ |    `-._`-._        _.-'_.-'    |
+  `-._    `-._`-.__.-'_.-'    _.-'
+      `-._    `-.__.-'    _.-'
+          `-._        _.-'
+              `-.__.-'
 
 10144:X 09 Aug 2021 07:54:58.354 # Sentinel ID is 89345ea44224358e6c356a1202bcf8515ce58f77
 10144:X 09 Aug 2021 07:54:58.354 # +monitor master mymaster 127.0.0.1 6379 quorum 2
@@ -510,29 +510,29 @@ karuppiahn-a01:3.3 karuppiahn$ redis-sentinel sentinel2.conf
 ```
 
 ```bash
-karuppiahn-a01:3.3 karuppiahn$ redis-sentinel sentinel3.conf 
+karuppiahn-a01:3.3 karuppiahn$ redis-sentinel sentinel3.conf
 10145:X 09 Aug 2021 07:55:00.935 # oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
 10145:X 09 Aug 2021 07:55:00.935 # Redis version=6.2.5, bits=64, commit=00000000, modified=0, pid=10145, just started
 10145:X 09 Aug 2021 07:55:00.935 # Configuration loaded
 10145:X 09 Aug 2021 07:55:00.936 * Increased maximum number of open files to 10032 (it was originally set to 256).
 10145:X 09 Aug 2021 07:55:00.936 * monotonic clock: POSIX clock_gettime
-                _._                                                  
-           _.-``__ ''-._                                             
+                _._
+           _.-``__ ''-._
       _.-``    `.  `_.  ''-._           Redis 6.2.5 (00000000/0) 64 bit
-  .-`` .-```.  ```\/    _.,_ ''-._                                  
+  .-`` .-```.  ```\/    _.,_ ''-._
  (    '      ,       .-`  | `,    )     Running in sentinel mode
  |`-._`-...-` __...-.``-._|'` _.-'|     Port: 5002
  |    `-._   `._    /     _.-'    |     PID: 10145
-  `-._    `-._  `-./  _.-'    _.-'                                   
- |`-._`-._    `-.__.-'    _.-'_.-'|                                  
- |    `-._`-._        _.-'_.-'    |           https://redis.io       
-  `-._    `-._`-.__.-'_.-'    _.-'                                   
- |`-._`-._    `-.__.-'    _.-'_.-'|                                  
- |    `-._`-._        _.-'_.-'    |                                  
-  `-._    `-._`-.__.-'_.-'    _.-'                                   
-      `-._    `-.__.-'    _.-'                                       
-          `-._        _.-'                                           
-              `-.__.-'                                               
+  `-._    `-._  `-./  _.-'    _.-'
+ |`-._`-._    `-.__.-'    _.-'_.-'|
+ |    `-._`-._        _.-'_.-'    |           https://redis.io
+  `-._    `-._`-.__.-'_.-'    _.-'
+ |`-._`-._    `-.__.-'    _.-'_.-'|
+ |    `-._`-._        _.-'_.-'    |
+  `-._    `-._`-.__.-'_.-'    _.-'
+      `-._    `-.__.-'    _.-'
+          `-._        _.-'
+              `-.__.-'
 
 10145:X 09 Aug 2021 07:55:00.937 # Sentinel ID is 3708e850553a9e459c3231cd5cd500674c04e22f
 10145:X 09 Aug 2021 07:55:00.937 # +monitor master mymaster 127.0.0.1 6379 quorum 2
@@ -583,7 +583,7 @@ karuppiahn-a01:3.3 karuppiahn$ redis-sentinel sentinel3.conf
 38) "60000"
 39) "parallel-syncs"
 40) "1"
-127.0.0.1:5000> 
+127.0.0.1:5000>
 ```
 
 Previously `num-slaves` was 0 and now it's 1. `num-other-sentinels` is 2!! :D `runid` is NOT empty, previously it was empty!!
@@ -742,7 +742,7 @@ From sentinel redis-cli -
    26) "?"
    27) "voted-leader-epoch"
    28) "0"
-127.0.0.1:5000> 
+127.0.0.1:5000>
 ```
 
 Both `SENTINEL master mymaster` and `SENTINEL MASTER mymaster` worked, hmm ! It's case insesitive when it comes to the command and the argument here, the first argument alone. Surely the second argument is case sensitive, which I checked earlier
@@ -753,7 +753,7 @@ So, now we know how to find the master information from the sentinel and also th
 127.0.0.1:5000> SENTINEL get-master-addr-by-name mymaster
 1) "127.0.0.1"
 2) "6379"
-127.0.0.1:5000> 
+127.0.0.1:5000>
 ```
 
 I tried to simulate a failover
@@ -765,7 +765,7 @@ Some failed attempts -
 ```bash
 karuppiahn-a01:3.2 karuppiahn$ redis-cli -p 6379 DEBUG sleep 30
 (error) NOAUTH Authentication required.
-karuppiahn-a01:3.2 karuppiahn$ redis-cli -p 6379 DEBUG sleep 30 
+karuppiahn-a01:3.2 karuppiahn$ redis-cli -p 6379 DEBUG sleep 30
 karuppiahn-a01:3.2 karuppiahn$ redis-cli -h | rg -i auth
 redis-cli 6.2.5
 
@@ -882,18 +882,18 @@ and settings.
 
 karuppiahn-a01:3.2 karuppiahn$ redis-cli -p 6379 DEBUG sleep 30 --password a_strong_password
 (error) NOAUTH Authentication required.
-karuppiahn-a01:3.2 karuppiahn$ redis-cli -p 6379 --password a_strong_password DEBUG sleep 30 
+karuppiahn-a01:3.2 karuppiahn$ redis-cli -p 6379 --password a_strong_password DEBUG sleep 30
 Unrecognized option or bad number of args for: '--password'
 ```
 
 Passing attempt -
 
 ```bash
-karuppiahn-a01:3.2 karuppiahn$ redis-cli -p 6379 -a a_strong_password DEBUG sleep 30 
+karuppiahn-a01:3.2 karuppiahn$ redis-cli -p 6379 -a a_strong_password DEBUG sleep 30
 Warning: Using a password with '-a' or '-u' option on the command line interface may not be safe.
 
 OK
-karuppiahn-a01:3.2 karuppiahn$ 
+karuppiahn-a01:3.2 karuppiahn$
 ```
 
 The failover happened. I mean, failure was detected, sentinels tried to do the failover, but the old master couldn't become a replica for some reason. I don't know. The logs of sentinel and master are below -
@@ -901,29 +901,29 @@ The failover happened. I mean, failure was detected, sentinels tried to do the f
 Sentinel 1
 
 ```bash
-karuppiahn-a01:3.3 karuppiahn$ redis-sentinel sentinel1.conf 
+karuppiahn-a01:3.3 karuppiahn$ redis-sentinel sentinel1.conf
 10129:X 09 Aug 2021 07:54:45.543 # oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
 10129:X 09 Aug 2021 07:54:45.543 # Redis version=6.2.5, bits=64, commit=00000000, modified=0, pid=10129, just started
 10129:X 09 Aug 2021 07:54:45.543 # Configuration loaded
 10129:X 09 Aug 2021 07:54:45.544 * Increased maximum number of open files to 10032 (it was originally set to 256).
 10129:X 09 Aug 2021 07:54:45.544 * monotonic clock: POSIX clock_gettime
-                _._                                                  
-           _.-``__ ''-._                                             
+                _._
+           _.-``__ ''-._
       _.-``    `.  `_.  ''-._           Redis 6.2.5 (00000000/0) 64 bit
-  .-`` .-```.  ```\/    _.,_ ''-._                                  
+  .-`` .-```.  ```\/    _.,_ ''-._
  (    '      ,       .-`  | `,    )     Running in sentinel mode
  |`-._`-...-` __...-.``-._|'` _.-'|     Port: 5000
  |    `-._   `._    /     _.-'    |     PID: 10129
-  `-._    `-._  `-./  _.-'    _.-'                                   
- |`-._`-._    `-.__.-'    _.-'_.-'|                                  
- |    `-._`-._        _.-'_.-'    |           https://redis.io       
-  `-._    `-._`-.__.-'_.-'    _.-'                                   
- |`-._`-._    `-.__.-'    _.-'_.-'|                                  
- |    `-._`-._        _.-'_.-'    |                                  
-  `-._    `-._`-.__.-'_.-'    _.-'                                   
-      `-._    `-.__.-'    _.-'                                       
-          `-._        _.-'                                           
-              `-.__.-'                                               
+  `-._    `-._  `-./  _.-'    _.-'
+ |`-._`-._    `-.__.-'    _.-'_.-'|
+ |    `-._`-._        _.-'_.-'    |           https://redis.io
+  `-._    `-._`-.__.-'_.-'    _.-'
+ |`-._`-._    `-.__.-'    _.-'_.-'|
+ |    `-._`-._        _.-'_.-'    |
+  `-._    `-._`-.__.-'_.-'    _.-'
+      `-._    `-.__.-'    _.-'
+          `-._        _.-'
+              `-.__.-'
 
 10129:X 09 Aug 2021 07:54:45.545 # Sentinel ID is abe94391011010eb7a991a301c9129fac5ec0409
 10129:X 09 Aug 2021 07:54:45.545 # +monitor master mymaster 127.0.0.1 6379 quorum 2
@@ -958,29 +958,29 @@ karuppiahn-a01:3.3 karuppiahn$ redis-sentinel sentinel1.conf
 Sentinel 2
 
 ```bash
-karuppiahn-a01:3.3 karuppiahn$ redis-sentinel sentinel2.conf 
+karuppiahn-a01:3.3 karuppiahn$ redis-sentinel sentinel2.conf
 10144:X 09 Aug 2021 07:54:58.352 # oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
 10144:X 09 Aug 2021 07:54:58.352 # Redis version=6.2.5, bits=64, commit=00000000, modified=0, pid=10144, just started
 10144:X 09 Aug 2021 07:54:58.352 # Configuration loaded
 10144:X 09 Aug 2021 07:54:58.353 * Increased maximum number of open files to 10032 (it was originally set to 256).
 10144:X 09 Aug 2021 07:54:58.353 * monotonic clock: POSIX clock_gettime
-                _._                                                  
-           _.-``__ ''-._                                             
+                _._
+           _.-``__ ''-._
       _.-``    `.  `_.  ''-._           Redis 6.2.5 (00000000/0) 64 bit
-  .-`` .-```.  ```\/    _.,_ ''-._                                  
+  .-`` .-```.  ```\/    _.,_ ''-._
  (    '      ,       .-`  | `,    )     Running in sentinel mode
  |`-._`-...-` __...-.``-._|'` _.-'|     Port: 5001
  |    `-._   `._    /     _.-'    |     PID: 10144
-  `-._    `-._  `-./  _.-'    _.-'                                   
- |`-._`-._    `-.__.-'    _.-'_.-'|                                  
- |    `-._`-._        _.-'_.-'    |           https://redis.io       
-  `-._    `-._`-.__.-'_.-'    _.-'                                   
- |`-._`-._    `-.__.-'    _.-'_.-'|                                  
- |    `-._`-._        _.-'_.-'    |                                  
-  `-._    `-._`-.__.-'_.-'    _.-'                                   
-      `-._    `-.__.-'    _.-'                                       
-          `-._        _.-'                                           
-              `-.__.-'                                               
+  `-._    `-._  `-./  _.-'    _.-'
+ |`-._`-._    `-.__.-'    _.-'_.-'|
+ |    `-._`-._        _.-'_.-'    |           https://redis.io
+  `-._    `-._`-.__.-'_.-'    _.-'
+ |`-._`-._    `-.__.-'    _.-'_.-'|
+ |    `-._`-._        _.-'_.-'    |
+  `-._    `-._`-.__.-'_.-'    _.-'
+      `-._    `-.__.-'    _.-'
+          `-._        _.-'
+              `-.__.-'
 
 10144:X 09 Aug 2021 07:54:58.354 # Sentinel ID is 89345ea44224358e6c356a1202bcf8515ce58f77
 10144:X 09 Aug 2021 07:54:58.354 # +monitor master mymaster 127.0.0.1 6379 quorum 2
@@ -1005,29 +1005,29 @@ karuppiahn-a01:3.3 karuppiahn$ redis-sentinel sentinel2.conf
 Sentinel 3
 
 ```bash
-karuppiahn-a01:3.3 karuppiahn$ redis-sentinel sentinel3.conf 
+karuppiahn-a01:3.3 karuppiahn$ redis-sentinel sentinel3.conf
 10145:X 09 Aug 2021 07:55:00.935 # oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
 10145:X 09 Aug 2021 07:55:00.935 # Redis version=6.2.5, bits=64, commit=00000000, modified=0, pid=10145, just started
 10145:X 09 Aug 2021 07:55:00.935 # Configuration loaded
 10145:X 09 Aug 2021 07:55:00.936 * Increased maximum number of open files to 10032 (it was originally set to 256).
 10145:X 09 Aug 2021 07:55:00.936 * monotonic clock: POSIX clock_gettime
-                _._                                                  
-           _.-``__ ''-._                                             
+                _._
+           _.-``__ ''-._
       _.-``    `.  `_.  ''-._           Redis 6.2.5 (00000000/0) 64 bit
-  .-`` .-```.  ```\/    _.,_ ''-._                                  
+  .-`` .-```.  ```\/    _.,_ ''-._
  (    '      ,       .-`  | `,    )     Running in sentinel mode
  |`-._`-...-` __...-.``-._|'` _.-'|     Port: 5002
  |    `-._   `._    /     _.-'    |     PID: 10145
-  `-._    `-._  `-./  _.-'    _.-'                                   
- |`-._`-._    `-.__.-'    _.-'_.-'|                                  
- |    `-._`-._        _.-'_.-'    |           https://redis.io       
-  `-._    `-._`-.__.-'_.-'    _.-'                                   
- |`-._`-._    `-.__.-'    _.-'_.-'|                                  
- |    `-._`-._        _.-'_.-'    |                                  
-  `-._    `-._`-.__.-'_.-'    _.-'                                   
-      `-._    `-.__.-'    _.-'                                       
-          `-._        _.-'                                           
-              `-.__.-'                                               
+  `-._    `-._  `-./  _.-'    _.-'
+ |`-._`-._    `-.__.-'    _.-'_.-'|
+ |    `-._`-._        _.-'_.-'    |           https://redis.io
+  `-._    `-._`-.__.-'_.-'    _.-'
+ |`-._`-._    `-.__.-'    _.-'_.-'|
+ |    `-._`-._        _.-'_.-'    |
+  `-._    `-._`-.__.-'_.-'    _.-'
+      `-._    `-.__.-'    _.-'
+          `-._        _.-'
+              `-.__.-'
 
 10145:X 09 Aug 2021 07:55:00.937 # Sentinel ID is 3708e850553a9e459c3231cd5cd500674c04e22f
 10145:X 09 Aug 2021 07:55:00.937 # +monitor master mymaster 127.0.0.1 6379 quorum 2
@@ -1055,29 +1055,29 @@ Old Replica / new master / new primary logs -
 
 ```bash
 Last login: Mon Aug  9 07:38:43 on ttys001
-karuppiahn-a01:3.2 karuppiahn$ redis-server replica.conf 
+karuppiahn-a01:3.2 karuppiahn$ redis-server replica.conf
 5933:C 09 Aug 2021 07:39:46.124 # oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
 5933:C 09 Aug 2021 07:39:46.124 # Redis version=6.2.5, bits=64, commit=00000000, modified=0, pid=5933, just started
 5933:C 09 Aug 2021 07:39:46.124 # Configuration loaded
 5933:S 09 Aug 2021 07:39:46.125 * Increased maximum number of open files to 10032 (it was originally set to 256).
 5933:S 09 Aug 2021 07:39:46.126 * monotonic clock: POSIX clock_gettime
-                _._                                                  
-           _.-``__ ''-._                                             
+                _._
+           _.-``__ ''-._
       _.-``    `.  `_.  ''-._           Redis 6.2.5 (00000000/0) 64 bit
-  .-`` .-```.  ```\/    _.,_ ''-._                                  
+  .-`` .-```.  ```\/    _.,_ ''-._
  (    '      ,       .-`  | `,    )     Running in standalone mode
  |`-._`-...-` __...-.``-._|'` _.-'|     Port: 6380
  |    `-._   `._    /     _.-'    |     PID: 5933
-  `-._    `-._  `-./  _.-'    _.-'                                   
- |`-._`-._    `-.__.-'    _.-'_.-'|                                  
- |    `-._`-._        _.-'_.-'    |           https://redis.io       
-  `-._    `-._`-.__.-'_.-'    _.-'                                   
- |`-._`-._    `-.__.-'    _.-'_.-'|                                  
- |    `-._`-._        _.-'_.-'    |                                  
-  `-._    `-._`-.__.-'_.-'    _.-'                                   
-      `-._    `-.__.-'    _.-'                                       
-          `-._        _.-'                                           
-              `-.__.-'                                               
+  `-._    `-._  `-./  _.-'    _.-'
+ |`-._`-._    `-.__.-'    _.-'_.-'|
+ |    `-._`-._        _.-'_.-'    |           https://redis.io
+  `-._    `-._`-.__.-'_.-'    _.-'
+ |`-._`-._    `-.__.-'    _.-'_.-'|
+ |    `-._`-._        _.-'_.-'    |
+  `-._    `-._`-.__.-'_.-'    _.-'
+      `-._    `-.__.-'    _.-'
+          `-._        _.-'
+              `-.__.-'
 
 5933:S 09 Aug 2021 07:39:46.127 # Server initialized
 5933:S 09 Aug 2021 07:39:46.127 * Loading RDB produced by version 6.2.5
@@ -1124,7 +1124,7 @@ I was checking the old primary log. It's crazy. I think the reason for the old p
 Currently the sentinel configuration files look like this after the failover -
 
 ```bash
-karuppiahn-a01:3.3 karuppiahn$ cat sentinel1.conf 
+karuppiahn-a01:3.3 karuppiahn$ cat sentinel1.conf
 port 5000
 sentinel monitor mymaster 127.0.0.1 6380 2
 sentinel down-after-milliseconds mymaster 5000
@@ -1142,7 +1142,7 @@ sentinel current-epoch 1
 sentinel known-replica mymaster 127.0.0.1 6379
 sentinel known-sentinel mymaster 127.0.0.1 5002 3708e850553a9e459c3231cd5cd500674c04e22f
 sentinel known-sentinel mymaster 127.0.0.1 5001 89345ea44224358e6c356a1202bcf8515ce58f77
-karuppiahn-a01:3.3 karuppiahn$ cat sentinel2.conf 
+karuppiahn-a01:3.3 karuppiahn$ cat sentinel2.conf
 port 5001
 sentinel monitor mymaster 127.0.0.1 6380 2
 sentinel down-after-milliseconds mymaster 5000
@@ -1160,7 +1160,7 @@ sentinel current-epoch 1
 sentinel known-replica mymaster 127.0.0.1 6379
 sentinel known-sentinel mymaster 127.0.0.1 5000 abe94391011010eb7a991a301c9129fac5ec0409
 sentinel known-sentinel mymaster 127.0.0.1 5002 3708e850553a9e459c3231cd5cd500674c04e22f
-karuppiahn-a01:3.3 karuppiahn$ cat sentinel3.conf 
+karuppiahn-a01:3.3 karuppiahn$ cat sentinel3.conf
 port 5002
 sentinel monitor mymaster 127.0.0.1 6380 2
 sentinel down-after-milliseconds mymaster 5000
@@ -1178,35 +1178,35 @@ sentinel current-epoch 1
 sentinel known-replica mymaster 127.0.0.1 6379
 sentinel known-sentinel mymaster 127.0.0.1 5001 89345ea44224358e6c356a1202bcf8515ce58f77
 sentinel known-sentinel mymaster 127.0.0.1 5000 abe94391011010eb7a991a301c9129fac5ec0409
-karuppiahn-a01:3.3 karuppiahn$ 
+karuppiahn-a01:3.3 karuppiahn$
 ```
 
 About the old primary logs, I think it's safe to say that it's simply a repetition of the last few lines of this log, at least most of the logs are the same. I just checked. Same error repeating over and over and over again
 
 ```bash
-karuppiahn-a01:3.2 karuppiahn$ redis-server primary.conf 
+karuppiahn-a01:3.2 karuppiahn$ redis-server primary.conf
 5609:C 09 Aug 2021 07:39:40.384 # oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
 5609:C 09 Aug 2021 07:39:40.384 # Redis version=6.2.5, bits=64, commit=00000000, modified=0, pid=5609, just started
 5609:C 09 Aug 2021 07:39:40.384 # Configuration loaded
 5609:M 09 Aug 2021 07:39:40.385 * Increased maximum number of open files to 10032 (it was originally set to 256).
 5609:M 09 Aug 2021 07:39:40.385 * monotonic clock: POSIX clock_gettime
-                _._                                                  
-           _.-``__ ''-._                                             
+                _._
+           _.-``__ ''-._
       _.-``    `.  `_.  ''-._           Redis 6.2.5 (00000000/0) 64 bit
-  .-`` .-```.  ```\/    _.,_ ''-._                                  
+  .-`` .-```.  ```\/    _.,_ ''-._
  (    '      ,       .-`  | `,    )     Running in standalone mode
  |`-._`-...-` __...-.``-._|'` _.-'|     Port: 6379
  |    `-._   `._    /     _.-'    |     PID: 5609
-  `-._    `-._  `-./  _.-'    _.-'                                   
- |`-._`-._    `-.__.-'    _.-'_.-'|                                  
- |    `-._`-._        _.-'_.-'    |           https://redis.io       
-  `-._    `-._`-.__.-'_.-'    _.-'                                   
- |`-._`-._    `-.__.-'    _.-'_.-'|                                  
- |    `-._`-._        _.-'_.-'    |                                  
-  `-._    `-._`-.__.-'_.-'    _.-'                                   
-      `-._    `-.__.-'    _.-'                                       
-          `-._        _.-'                                           
-              `-.__.-'                                               
+  `-._    `-._  `-./  _.-'    _.-'
+ |`-._`-._    `-.__.-'    _.-'_.-'|
+ |    `-._`-._        _.-'_.-'    |           https://redis.io
+  `-._    `-._`-.__.-'_.-'    _.-'
+ |`-._`-._    `-.__.-'    _.-'_.-'|
+ |    `-._`-._        _.-'_.-'    |
+  `-._    `-._`-.__.-'_.-'    _.-'
+      `-._    `-.__.-'    _.-'
+          `-._        _.-'
+              `-.__.-'
 
 5609:M 09 Aug 2021 07:39:40.386 # Server initialized
 5609:M 09 Aug 2021 07:39:40.387 * DB loaded from append only file: 0.001 seconds
@@ -1257,4 +1257,136 @@ Not sure how to fix this kind of issue. I mean, I setup replica with auth, yes. 
 
 Section 3.4 also says the same thing. Hmm. I mean, it doesn't any new information apart from what we know and have done till now
 
+Once I killed the replica process too, the sentinels showed some extra logs, also when I started killing sentinels too
 
+Sentinel 2 logs -
+
+```bash
+karuppiahn-a01:3.3 karuppiahn$ redis-sentinel sentinel2.conf
+10144:X 09 Aug 2021 07:54:58.352 # oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
+10144:X 09 Aug 2021 07:54:58.352 # Redis version=6.2.5, bits=64, commit=00000000, modified=0, pid=10144, just started
+10144:X 09 Aug 2021 07:54:58.352 # Configuration loaded
+10144:X 09 Aug 2021 07:54:58.353 * Increased maximum number of open files to 10032 (it was originally set to 256).
+10144:X 09 Aug 2021 07:54:58.353 * monotonic clock: POSIX clock_gettime
+                _._
+           _.-``__ ''-._
+      _.-``    `.  `_.  ''-._           Redis 6.2.5 (00000000/0) 64 bit
+  .-`` .-```.  ```\/    _.,_ ''-._
+ (    '      ,       .-`  | `,    )     Running in sentinel mode
+ |`-._`-...-` __...-.``-._|'` _.-'|     Port: 5001
+ |    `-._   `._    /     _.-'    |     PID: 10144
+  `-._    `-._  `-./  _.-'    _.-'
+ |`-._`-._    `-.__.-'    _.-'_.-'|
+ |    `-._`-._        _.-'_.-'    |           https://redis.io
+  `-._    `-._`-.__.-'_.-'    _.-'
+ |`-._`-._    `-.__.-'    _.-'_.-'|
+ |    `-._`-._        _.-'_.-'    |
+  `-._    `-._`-.__.-'_.-'    _.-'
+      `-._    `-.__.-'    _.-'
+          `-._        _.-'
+              `-.__.-'
+
+10144:X 09 Aug 2021 07:54:58.354 # Sentinel ID is 89345ea44224358e6c356a1202bcf8515ce58f77
+10144:X 09 Aug 2021 07:54:58.354 # +monitor master mymaster 127.0.0.1 6379 quorum 2
+10144:X 09 Aug 2021 07:54:58.355 * +slave slave 127.0.0.1:6380 127.0.0.1 6380 @ mymaster 127.0.0.1 6379
+10144:X 09 Aug 2021 07:54:59.887 * +sentinel sentinel abe94391011010eb7a991a301c9129fac5ec0409 127.0.0.1 5000 @ mymaster 127.0.0.1 6379
+10144:X 09 Aug 2021 07:55:02.940 * +sentinel sentinel 3708e850553a9e459c3231cd5cd500674c04e22f 127.0.0.1 5002 @ mymaster 127.0.0.1 6379
+10144:X 09 Aug 2021 08:13:09.083 # +tilt #tilt mode entered
+10144:X 09 Aug 2021 08:13:39.162 # -tilt #tilt mode exited
+10144:X 09 Aug 2021 08:21:59.765 # +sdown master mymaster 127.0.0.1 6379
+10144:X 09 Aug 2021 08:21:59.851 # +new-epoch 1
+10144:X 09 Aug 2021 08:21:59.852 # +vote-for-leader abe94391011010eb7a991a301c9129fac5ec0409 1
+10144:X 09 Aug 2021 08:21:59.856 # +odown master mymaster 127.0.0.1 6379 #quorum 2/2
+10144:X 09 Aug 2021 08:21:59.856 # Next failover delay: I will not start a failover before Mon Aug  9 08:24:00 2021
+10144:X 09 Aug 2021 08:22:00.980 # +config-update-from sentinel abe94391011010eb7a991a301c9129fac5ec0409 127.0.0.1 5000 @ mymaster 127.0.0.1 6379
+10144:X 09 Aug 2021 08:22:00.980 # +switch-master mymaster 127.0.0.1 6379 127.0.0.1 6380
+10144:X 09 Aug 2021 08:22:00.980 * +slave slave 127.0.0.1:6379 127.0.0.1 6379 @ mymaster 127.0.0.1 6380
+10144:X 09 Aug 2021 08:22:05.996 # +sdown slave 127.0.0.1:6379 127.0.0.1 6379 @ mymaster 127.0.0.1 6380
+10144:X 09 Aug 2021 08:22:24.519 # -sdown slave 127.0.0.1:6379 127.0.0.1 6379 @ mymaster 127.0.0.1 6380
+10144:X 09 Aug 2021 08:23:54.457 # +sdown slave 127.0.0.1:6379 127.0.0.1 6379 @ mymaster 127.0.0.1 6380
+10144:X 09 Aug 2021 08:43:14.415 # +tilt #tilt mode entered
+10144:X 09 Aug 2021 08:43:44.439 # -tilt #tilt mode exited
+10144:X 09 Aug 2021 08:45:13.369 * +reboot slave 127.0.0.1:6379 127.0.0.1 6379 @ mymaster 127.0.0.1 6380
+10144:X 09 Aug 2021 08:45:13.423 # -sdown slave 127.0.0.1:6379 127.0.0.1 6379 @ mymaster 127.0.0.1 6380
+10144:X 09 Aug 2021 08:45:19.444 # +sdown slave 127.0.0.1:6379 127.0.0.1 6379 @ mymaster 127.0.0.1 6380
+10144:X 09 Aug 2021 09:42:51.088 # +sdown master mymaster 127.0.0.1 6380
+10144:X 09 Aug 2021 09:42:51.120 # +new-epoch 2
+10144:X 09 Aug 2021 09:42:51.121 # +vote-for-leader 3708e850553a9e459c3231cd5cd500674c04e22f 2
+10144:X 09 Aug 2021 09:42:51.172 # +odown master mymaster 127.0.0.1 6380 #quorum 3/2
+10144:X 09 Aug 2021 09:42:51.172 # Next failover delay: I will not start a failover before Mon Aug  9 09:44:51 2021
+10144:X 09 Aug 2021 09:43:26.974 # +sdown sentinel abe94391011010eb7a991a301c9129fac5ec0409 127.0.0.1 5000 @ mymaster 127.0.0.1 6380
+^C10144:signal-handler (1628482417) Received SIGINT scheduling shutdown...
+10144:X 09 Aug 2021 09:43:37.490 # User requested shutdown...
+10144:X 09 Aug 2021 09:43:37.490 # Sentinel is now ready to exit, bye bye...
+karuppiahn-a01:3.3 karuppiahn$
+```
+
+Sentinel 3 logs -
+
+```bash
+karuppiahn-a01:3.3 karuppiahn$ redis-sentinel sentinel3.conf
+10145:X 09 Aug 2021 07:55:00.935 # oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
+10145:X 09 Aug 2021 07:55:00.935 # Redis version=6.2.5, bits=64, commit=00000000, modified=0, pid=10145, just started
+10145:X 09 Aug 2021 07:55:00.935 # Configuration loaded
+10145:X 09 Aug 2021 07:55:00.936 * Increased maximum number of open files to 10032 (it was originally set to 256).
+10145:X 09 Aug 2021 07:55:00.936 * monotonic clock: POSIX clock_gettime
+                _._
+           _.-``__ ''-._
+      _.-``    `.  `_.  ''-._           Redis 6.2.5 (00000000/0) 64 bit
+  .-`` .-```.  ```\/    _.,_ ''-._
+ (    '      ,       .-`  | `,    )     Running in sentinel mode
+ |`-._`-...-` __...-.``-._|'` _.-'|     Port: 5002
+ |    `-._   `._    /     _.-'    |     PID: 10145
+  `-._    `-._  `-./  _.-'    _.-'
+ |`-._`-._    `-.__.-'    _.-'_.-'|
+ |    `-._`-._        _.-'_.-'    |           https://redis.io
+  `-._    `-._`-.__.-'_.-'    _.-'
+ |`-._`-._    `-.__.-'    _.-'_.-'|
+ |    `-._`-._        _.-'_.-'    |
+  `-._    `-._`-.__.-'_.-'    _.-'
+      `-._    `-.__.-'    _.-'
+          `-._        _.-'
+              `-.__.-'
+
+10145:X 09 Aug 2021 07:55:00.937 # Sentinel ID is 3708e850553a9e459c3231cd5cd500674c04e22f
+10145:X 09 Aug 2021 07:55:00.937 # +monitor master mymaster 127.0.0.1 6379 quorum 2
+10145:X 09 Aug 2021 07:55:00.938 * +slave slave 127.0.0.1:6380 127.0.0.1 6380 @ mymaster 127.0.0.1 6379
+10145:X 09 Aug 2021 07:55:01.929 * +sentinel sentinel abe94391011010eb7a991a301c9129fac5ec0409 127.0.0.1 5000 @ mymaster 127.0.0.1 6379
+10145:X 09 Aug 2021 07:55:02.382 * +sentinel sentinel 89345ea44224358e6c356a1202bcf8515ce58f77 127.0.0.1 5001 @ mymaster 127.0.0.1 6379
+10145:X 09 Aug 2021 08:13:09.083 # +tilt #tilt mode entered
+10145:X 09 Aug 2021 08:13:39.110 # -tilt #tilt mode exited
+10145:X 09 Aug 2021 08:21:59.735 # +sdown master mymaster 127.0.0.1 6379
+10145:X 09 Aug 2021 08:21:59.851 # +new-epoch 1
+10145:X 09 Aug 2021 08:21:59.852 # +vote-for-leader abe94391011010eb7a991a301c9129fac5ec0409 1
+10145:X 09 Aug 2021 08:22:00.820 # +odown master mymaster 127.0.0.1 6379 #quorum 3/2
+10145:X 09 Aug 2021 08:22:00.820 # Next failover delay: I will not start a failover before Mon Aug  9 08:24:00 2021
+10145:X 09 Aug 2021 08:22:00.980 # +config-update-from sentinel abe94391011010eb7a991a301c9129fac5ec0409 127.0.0.1 5000 @ mymaster 127.0.0.1 6379
+10145:X 09 Aug 2021 08:22:00.980 # +switch-master mymaster 127.0.0.1 6379 127.0.0.1 6380
+10145:X 09 Aug 2021 08:22:00.980 * +slave slave 127.0.0.1:6379 127.0.0.1 6379 @ mymaster 127.0.0.1 6380
+10145:X 09 Aug 2021 08:22:06.016 # +sdown slave 127.0.0.1:6379 127.0.0.1 6379 @ mymaster 127.0.0.1 6380
+10145:X 09 Aug 2021 08:22:24.481 # -sdown slave 127.0.0.1:6379 127.0.0.1 6379 @ mymaster 127.0.0.1 6380
+10145:X 09 Aug 2021 08:23:54.503 # +sdown slave 127.0.0.1:6379 127.0.0.1 6379 @ mymaster 127.0.0.1 6380
+10145:X 09 Aug 2021 08:45:13.694 * +reboot slave 127.0.0.1:6379 127.0.0.1 6379 @ mymaster 127.0.0.1 6380
+10145:X 09 Aug 2021 08:45:13.781 # -sdown slave 127.0.0.1:6379 127.0.0.1 6379 @ mymaster 127.0.0.1 6380
+10145:X 09 Aug 2021 08:45:19.739 # +sdown slave 127.0.0.1:6379 127.0.0.1 6379 @ mymaster 127.0.0.1 6380
+10145:X 09 Aug 2021 09:42:51.064 # +sdown master mymaster 127.0.0.1 6380
+10145:X 09 Aug 2021 09:42:51.117 # +odown master mymaster 127.0.0.1 6380 #quorum 2/2
+10145:X 09 Aug 2021 09:42:51.117 # +new-epoch 2
+10145:X 09 Aug 2021 09:42:51.117 # +try-failover master mymaster 127.0.0.1 6380
+10145:X 09 Aug 2021 09:42:51.119 # +vote-for-leader 3708e850553a9e459c3231cd5cd500674c04e22f 2
+10145:X 09 Aug 2021 09:42:51.121 # 89345ea44224358e6c356a1202bcf8515ce58f77 voted for 3708e850553a9e459c3231cd5cd500674c04e22f 2
+10145:X 09 Aug 2021 09:42:51.121 # abe94391011010eb7a991a301c9129fac5ec0409 voted for 3708e850553a9e459c3231cd5cd500674c04e22f 2
+10145:X 09 Aug 2021 09:42:51.193 # +elected-leader master mymaster 127.0.0.1 6380
+10145:X 09 Aug 2021 09:42:51.193 # +failover-state-select-slave master mymaster 127.0.0.1 6380
+10145:X 09 Aug 2021 09:42:51.249 # -failover-abort-no-good-slave master mymaster 127.0.0.1 6380
+10145:X 09 Aug 2021 09:42:51.309 # Next failover delay: I will not start a failover before Mon Aug  9 09:44:51 2021
+10145:X 09 Aug 2021 09:43:26.905 # +sdown sentinel abe94391011010eb7a991a301c9129fac5ec0409 127.0.0.1 5000 @ mymaster 127.0.0.1 6380
+10145:X 09 Aug 2021 09:43:42.064 # -odown master mymaster 127.0.0.1 6380
+10145:X 09 Aug 2021 09:43:42.583 # +sdown sentinel 89345ea44224358e6c356a1202bcf8515ce58f77 127.0.0.1 5001 @ mymaster 127.0.0.1 6380
+^C10145:signal-handler (1628482423) Received SIGINT scheduling shutdown...
+10145:X 09 Aug 2021 09:43:43.901 # User requested shutdown...
+10145:X 09 Aug 2021 09:43:43.901 # Sentinel is now ready to exit, bye bye...
+karuppiahn-a01:3.3 karuppiahn$
+karuppiahn-a01:3.3 karuppiahn$
+karuppiahn-a01:3.3 karuppiahn$
+```
