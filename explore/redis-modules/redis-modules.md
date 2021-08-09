@@ -46,3 +46,7 @@ https://github.com/RedisGears/RedisGears/
 
 https://redisgears.io or https://oss.redislabs.com/redisgears/
 
+
+## Misc modules
+
+Lot of them listed here - https://redis.io/modules
