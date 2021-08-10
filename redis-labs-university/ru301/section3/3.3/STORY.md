@@ -1390,3 +1390,9 @@ karuppiahn-a01:3.3 karuppiahn$
 karuppiahn-a01:3.3 karuppiahn$
 karuppiahn-a01:3.3 karuppiahn$
 ```
+
+I'll probably have to get back to this and then see how failover works when the primary and replicas both have password protected Redis instances
+
+---
+
+Now I'm reading the remaining parts of the Sentinel docs https://redis.io/topics/sentinel after the tutorial, which is starting from the Sentinel API https://redis.io/topics/sentinel#sentinel-api
