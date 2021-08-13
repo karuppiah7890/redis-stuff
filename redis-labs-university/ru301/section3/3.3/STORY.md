@@ -1396,3 +1396,61 @@ I'll probably have to get back to this and then see how failover works when the 
 ---
 
 Now I'm reading the remaining parts of the Sentinel docs https://redis.io/topics/sentinel after the tutorial, which is starting from the Sentinel API https://redis.io/topics/sentinel#sentinel-api
+
+I finished reading and skimming through
+- https://redis.io/topics/sentinel#sentinel-api
+- https://redis.io/topics/sentinel#sentinel-commands
+- https://redis.io/topics/sentinel#reconfiguring-sentinel-at-runtime
+- https://redis.io/topics/sentinel#adding-or-removing-sentinels
+- https://redis.io/topics/sentinel#removing-the-old-master-or-unreachable-replicas
+- https://redis.io/topics/sentinel#pubsub-messages
+- https://redis.io/topics/sentinel#handling-of--busy-state
+- https://redis.io/topics/sentinel#replicas-priority
+- https://redis.io/topics/sentinel#sentinel-and-redis-authentication
+- https://redis.io/topics/sentinel#redis-access-control-list-authentication
+- https://redis.io/topics/sentinel#redis-password-only-authentication
+- https://redis.io/topics/sentinel#configuring-sentinel-instances-with-authentication
+- https://redis.io/topics/sentinel#sentinel-access-control-list-authentication
+- https://redis.io/topics/sentinel#sentinel-password-only-authentication
+- https://redis.io/topics/sentinel#sentinel-clients-implementation
+
+Next I'm planning to read https://redis.io/topics/sentinel#more-advanced-concepts and the other sections after it
+
+In the mean time I also noticed a lot of stuff while reading all these sections that I had read
+
+I understood what was probably going wrong with my setup of primary and replica where the failover didn't work - as in, the old primary didn't become a replica due to the authentication issue because of a configuration that I didn't use in it! I understood this when I was reading the section - https://redis.io/topics/sentinel#redis-password-only-authentication
+
+I also found out some new topic pages! :)
+
+https://redis.io/topics/sentinel-clients [TODO]
+
+https://redis.io/topics/acl [TODO]
+
+Which I plan to read :D
+
+In the meanwhile, I also planned to contribute to the redis documentation to improve the references to sections within the Redis Sentinel Topic Doc
+
+https://duckduckgo.com/?q=redis+docs+github&t=ffab&ia=web
+
+https://github.com/redis/redis-doc
+
+I created this issue - https://github.com/redis/redis-doc/issues/1625 to talk about it
+
+Some more TODOs -
+- Try out programs with Redis client libraries with Sentinel support to connect to Redis and interact with it [TODO]
+    - Try out in different programming languages to understand how it looks like based on the language idiomatics
+        - Golang
+        - JavaScript with NodeJs runtime
+        - Java
+        - Kotlin (probably similar to Java?)
+        - Python
+
+- A sample program to try could be to send PING command or other commands to a HA redis setup with Sentinel and then failover the primary - either force failover using the Sentinel or kill the primary using `kill` command or `Ctrl + C` in the terminal
+
+- Another sample program to try could be to listen to the Sentinel's channels - subscribe to them and listen to different kinds of events and messages. Maybe use `PSUBSCRIBE *` or just `SUBSCRIBE` to subscribe to individual channels
+
+- Another idea is to - Create a visualization to see how Redis Sentinel works along with Redis Primary and Redis Replicas and what all it does and the sequence of actions it does. Animated visualization, along with still images
+
+- Another visualization idea is to create a visualization to show the different example setups shown in https://redis.io/topics/sentinel page and show it can be problematic in different situations. Animated visualization, along with still images
+
+All the visualization ideas are based on the visualization that I have in my head to understand the different things explained in the Sentinel doc
