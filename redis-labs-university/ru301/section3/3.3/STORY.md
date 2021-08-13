@@ -1454,3 +1454,415 @@ Some more TODOs -
 - Another visualization idea is to create a visualization to show the different example setups shown in https://redis.io/topics/sentinel page and show it can be problematic in different situations. Animated visualization, along with still images
 
 All the visualization ideas are based on the visualization that I have in my head to understand the different things explained in the Sentinel doc
+
+Now I'm going to try and see if the primary and replica setup I tried previously with authentication works with some modifications. And also check what is the exercise that the Redis Univesity course asks folks to do and if it includes authentication
+
+I just tried the primary and replica setup along with sentinel setup and then a failover, but this time with `requirepass` and `masterauth` in both primary and replica configuration files, basically, the difference from last time was - I added `masterauth` in primary configuration file - in case the primary becomes a replica in the future and needs a password to connect to the new primary
+
+And the whole setup worked!! :D Below are the logs
+
+Initially primary, later became replica -
+
+```bash
+3.2 $ redis-server primary.conf
+33022:C 13 Aug 2021 13:11:49.870 # oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
+33022:C 13 Aug 2021 13:11:49.870 # Redis version=6.2.5, bits=64, commit=00000000, modified=0, pid=33022, just started
+33022:C 13 Aug 2021 13:11:49.870 # Configuration loaded
+33022:M 13 Aug 2021 13:11:49.871 * Increased maximum number of open files to 10032 (it was originally set to 256).
+33022:M 13 Aug 2021 13:11:49.871 * monotonic clock: POSIX clock_gettime
+                _._
+           _.-``__ ''-._
+      _.-``    `.  `_.  ''-._           Redis 6.2.5 (00000000/0) 64 bit
+  .-`` .-```.  ```\/    _.,_ ''-._
+ (    '      ,       .-`  | `,    )     Running in standalone mode
+ |`-._`-...-` __...-.``-._|'` _.-'|     Port: 6379
+ |    `-._   `._    /     _.-'    |     PID: 33022
+  `-._    `-._  `-./  _.-'    _.-'
+ |`-._`-._    `-.__.-'    _.-'_.-'|
+ |    `-._`-._        _.-'_.-'    |           https://redis.io
+  `-._    `-._`-.__.-'_.-'    _.-'
+ |`-._`-._    `-.__.-'    _.-'_.-'|
+ |    `-._`-._        _.-'_.-'    |
+  `-._    `-._`-.__.-'_.-'    _.-'
+      `-._    `-.__.-'    _.-'
+          `-._        _.-'
+              `-.__.-'
+
+33022:M 13 Aug 2021 13:11:49.872 # Server initialized
+33022:M 13 Aug 2021 13:11:49.873 * Ready to accept connections
+33022:M 13 Aug 2021 13:11:51.919 * Replica 127.0.0.1:6380 asks for synchronization
+33022:M 13 Aug 2021 13:11:51.919 * Partial resynchronization not accepted: Replication ID mismatch (Replica asked for '1b73dccae40044cb246c0c686ab9f48ae4c5bace', my replication IDs are 'b2a3aae6ca8d4e7c7cc2feea25ba9ecb2d72a9af' and '0000000000000000000000000000000000000000')
+33022:M 13 Aug 2021 13:11:51.919 * Replication backlog created, my new replication IDs are 'f469f8a4a6577d41dfdc274a80697afe11ce760e' and '0000000000000000000000000000000000000000'
+33022:M 13 Aug 2021 13:11:51.919 * Starting BGSAVE for SYNC with target: disk
+33022:M 13 Aug 2021 13:11:51.919 * Background saving started by pid 33024
+33024:C 13 Aug 2021 13:11:51.921 * DB saved on disk
+33022:M 13 Aug 2021 13:11:51.922 * Background saving terminated with success
+33022:M 13 Aug 2021 13:11:51.923 * Synchronization with replica 127.0.0.1:6380 succeeded
+
+^C33022:signal-handler (1628840540) Received SIGINT scheduling shutdown...
+33022:M 13 Aug 2021 13:12:20.636 # User requested shutdown...
+33022:M 13 Aug 2021 13:12:20.636 * Calling fsync() on the AOF file.
+33022:M 13 Aug 2021 13:12:20.636 * Saving the final RDB snapshot before exiting.
+33022:M 13 Aug 2021 13:12:20.637 * DB saved on disk
+33022:M 13 Aug 2021 13:12:20.637 # Redis is now ready to exit, bye bye...
+
+# restarting after stopping -
+
+3.2 $ redis-server primary.conf
+33032:C 13 Aug 2021 13:12:32.721 # oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
+33032:C 13 Aug 2021 13:12:32.721 # Redis version=6.2.5, bits=64, commit=00000000, modified=0, pid=33032, just started
+33032:C 13 Aug 2021 13:12:32.721 # Configuration loaded
+33032:M 13 Aug 2021 13:12:32.722 * Increased maximum number of open files to 10032 (it was originally set to 256).
+33032:M 13 Aug 2021 13:12:32.722 * monotonic clock: POSIX clock_gettime
+                _._
+           _.-``__ ''-._
+      _.-``    `.  `_.  ''-._           Redis 6.2.5 (00000000/0) 64 bit
+  .-`` .-```.  ```\/    _.,_ ''-._
+ (    '      ,       .-`  | `,    )     Running in standalone mode
+ |`-._`-...-` __...-.``-._|'` _.-'|     Port: 6379
+ |    `-._   `._    /     _.-'    |     PID: 33032
+  `-._    `-._  `-./  _.-'    _.-'
+ |`-._`-._    `-.__.-'    _.-'_.-'|
+ |    `-._`-._        _.-'_.-'    |           https://redis.io
+  `-._    `-._`-.__.-'_.-'    _.-'
+ |`-._`-._    `-.__.-'    _.-'_.-'|
+ |    `-._`-._        _.-'_.-'    |
+  `-._    `-._`-.__.-'_.-'    _.-'
+      `-._    `-.__.-'    _.-'
+          `-._        _.-'
+              `-.__.-'
+
+33032:M 13 Aug 2021 13:12:32.723 # Server initialized
+33032:M 13 Aug 2021 13:12:32.723 * Ready to accept connections
+33032:S 13 Aug 2021 13:12:43.335 * Before turning into a replica, using my own master parameters to synthesize a cached master: I may be able to synchronize with the new master with just a partial transfer.
+33032:S 13 Aug 2021 13:12:43.335 * Connecting to MASTER 127.0.0.1:6380
+33032:S 13 Aug 2021 13:12:43.335 * MASTER <-> REPLICA sync started
+33032:S 13 Aug 2021 13:12:43.336 * REPLICAOF 127.0.0.1:6380 enabled (user request from 'id=3 addr=127.0.0.1:58526 laddr=127.0.0.1:6379 fd=9 name=sentinel-1e004441-cmd age=10 idle=0 flags=x db=0 sub=0 psub=0 multi=4 qbuf=196 qbuf-free=65334 argv-mem=4 obl=45 oll=0 omem=0 tot-mem=82980 events=r cmd=exec user=default redir=-1')
+33032:S 13 Aug 2021 13:12:43.338 # CONFIG REWRITE executed with success.
+33032:S 13 Aug 2021 13:12:43.338 * Non blocking connect for SYNC fired the event.
+33032:S 13 Aug 2021 13:12:43.338 * Master replied to PING, replication can continue...
+33032:S 13 Aug 2021 13:12:43.338 * Trying a partial resynchronization (request f98d60e30f8a2f14d3d34dddeb4f6ce8e9bf9d74:1).
+33032:S 13 Aug 2021 13:12:43.339 * Full resync from master: bbd5236a4e3b6b4f76c13d1494332da9bec283c9:6938
+33032:S 13 Aug 2021 13:12:43.339 * Discarding previously cached master state.
+33032:S 13 Aug 2021 13:12:43.438 * MASTER <-> REPLICA sync: receiving 176 bytes from master to disk
+33032:S 13 Aug 2021 13:12:43.438 * MASTER <-> REPLICA sync: Flushing old data
+33032:S 13 Aug 2021 13:12:43.438 * MASTER <-> REPLICA sync: Loading DB in memory
+33032:S 13 Aug 2021 13:12:43.439 * Loading RDB produced by version 6.2.5
+33032:S 13 Aug 2021 13:12:43.439 * RDB age 0 seconds
+33032:S 13 Aug 2021 13:12:43.439 * RDB memory usage when created 2.16 Mb
+33032:S 13 Aug 2021 13:12:43.439 * MASTER <-> REPLICA sync: Finished with success
+33032:S 13 Aug 2021 13:12:43.439 * Background append only file rewriting started by pid 33035
+33032:S 13 Aug 2021 13:12:43.462 * AOF rewrite child asks to stop sending diffs.
+33035:C 13 Aug 2021 13:12:43.462 * Parent agreed to stop sending diffs. Finalizing AOF...
+33035:C 13 Aug 2021 13:12:43.463 * Concatenating 0.00 MB of AOF diff received from parent.
+33035:C 13 Aug 2021 13:12:43.464 * SYNC append only file rewrite performed
+33032:S 13 Aug 2021 13:12:43.489 * Background AOF rewrite terminated with success
+33032:S 13 Aug 2021 13:12:43.490 * Residual parent diff successfully flushed to the rewritten AOF (0.00 MB)
+33032:S 13 Aug 2021 13:12:43.491 * Background AOF rewrite finished successfully
+
+^C33032:signal-handler (1628840991) Received SIGINT scheduling shutdown...
+33032:S 13 Aug 2021 13:19:51.141 # User requested shutdown...
+33032:S 13 Aug 2021 13:19:51.141 * Calling fsync() on the AOF file.
+33032:S 13 Aug 2021 13:19:51.141 * Saving the final RDB snapshot before exiting.
+33032:S 13 Aug 2021 13:19:51.142 * DB saved on disk
+33032:S 13 Aug 2021 13:19:51.142 # Redis is now ready to exit, bye bye...
+```
+
+Initially replica, later became primary -
+
+```bash
+3.2 $ redis-server replica.conf
+33023:C 13 Aug 2021 13:11:51.915 # oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
+33023:C 13 Aug 2021 13:11:51.915 # Redis version=6.2.5, bits=64, commit=00000000, modified=0, pid=33023, just started
+33023:C 13 Aug 2021 13:11:51.915 # Configuration loaded
+33023:S 13 Aug 2021 13:11:51.917 * Increased maximum number of open files to 10032 (it was originally set to 256).
+33023:S 13 Aug 2021 13:11:51.917 * monotonic clock: POSIX clock_gettime
+                _._
+           _.-``__ ''-._
+      _.-``    `.  `_.  ''-._           Redis 6.2.5 (00000000/0) 64 bit
+  .-`` .-```.  ```\/    _.,_ ''-._
+ (    '      ,       .-`  | `,    )     Running in standalone mode
+ |`-._`-...-` __...-.``-._|'` _.-'|     Port: 6380
+ |    `-._   `._    /     _.-'    |     PID: 33023
+  `-._    `-._  `-./  _.-'    _.-'
+ |`-._`-._    `-.__.-'    _.-'_.-'|
+ |    `-._`-._        _.-'_.-'    |           https://redis.io
+  `-._    `-._`-.__.-'_.-'    _.-'
+ |`-._`-._    `-.__.-'    _.-'_.-'|
+ |    `-._`-._        _.-'_.-'    |
+  `-._    `-._`-.__.-'_.-'    _.-'
+      `-._    `-.__.-'    _.-'
+          `-._        _.-'
+              `-.__.-'
+
+33023:S 13 Aug 2021 13:11:51.918 # Server initialized
+33023:S 13 Aug 2021 13:11:51.918 * Loading RDB produced by version 6.2.5
+33023:S 13 Aug 2021 13:11:51.918 * RDB age 22 seconds
+33023:S 13 Aug 2021 13:11:51.918 * RDB memory usage when created 1.98 Mb
+33023:S 13 Aug 2021 13:11:51.918 * DB loaded from disk: 0.000 seconds
+33023:S 13 Aug 2021 13:11:51.918 * Before turning into a replica, using my own master parameters to synthesize a cached master: I may be able to synchronize with the new master with just a partial transfer.
+33023:S 13 Aug 2021 13:11:51.918 * Ready to accept connections
+33023:S 13 Aug 2021 13:11:51.918 * Connecting to MASTER 127.0.0.1:6379
+33023:S 13 Aug 2021 13:11:51.918 * MASTER <-> REPLICA sync started
+33023:S 13 Aug 2021 13:11:51.918 * Non blocking connect for SYNC fired the event.
+33023:S 13 Aug 2021 13:11:51.919 * Master replied to PING, replication can continue...
+33023:S 13 Aug 2021 13:11:51.919 * Trying a partial resynchronization (request 1b73dccae40044cb246c0c686ab9f48ae4c5bace:174521).
+33023:S 13 Aug 2021 13:11:51.920 * Full resync from master: f469f8a4a6577d41dfdc274a80697afe11ce760e:0
+33023:S 13 Aug 2021 13:11:51.920 * Discarding previously cached master state.
+33023:S 13 Aug 2021 13:11:51.923 * MASTER <-> REPLICA sync: receiving 175 bytes from master to disk
+33023:S 13 Aug 2021 13:11:51.923 * MASTER <-> REPLICA sync: Flushing old data
+33023:S 13 Aug 2021 13:11:51.923 * MASTER <-> REPLICA sync: Loading DB in memory
+33023:S 13 Aug 2021 13:11:51.923 * Loading RDB produced by version 6.2.5
+33023:S 13 Aug 2021 13:11:51.923 * RDB age 0 seconds
+33023:S 13 Aug 2021 13:11:51.923 * RDB memory usage when created 2.06 Mb
+33023:S 13 Aug 2021 13:11:51.924 * MASTER <-> REPLICA sync: Finished with success
+33023:S 13 Aug 2021 13:12:20.638 # Connection with master lost.
+33023:S 13 Aug 2021 13:12:20.638 * Caching the disconnected master state.
+33023:S 13 Aug 2021 13:12:20.638 * Reconnecting to MASTER 127.0.0.1:6379
+33023:S 13 Aug 2021 13:12:20.638 * MASTER <-> REPLICA sync started
+33023:S 13 Aug 2021 13:12:20.638 # Error condition on socket for SYNC: Connection refused
+33023:S 13 Aug 2021 13:12:21.664 * Connecting to MASTER 127.0.0.1:6379
+33023:S 13 Aug 2021 13:12:21.664 * MASTER <-> REPLICA sync started
+33023:S 13 Aug 2021 13:12:21.664 # Error condition on socket for SYNC: Connection refused
+
+33023:S 13 Aug 2021 13:12:22.697 * Connecting to MASTER 127.0.0.1:6379
+33023:S 13 Aug 2021 13:12:22.697 * MASTER <-> REPLICA sync started
+33023:S 13 Aug 2021 13:12:22.697 # Error condition on socket for SYNC: Connection refused
+33023:S 13 Aug 2021 13:12:23.726 * Connecting to MASTER 127.0.0.1:6379
+33023:S 13 Aug 2021 13:12:23.726 * MASTER <-> REPLICA sync started
+33023:S 13 Aug 2021 13:12:23.726 # Error condition on socket for SYNC: Connection refused
+33023:S 13 Aug 2021 13:12:24.759 * Connecting to MASTER 127.0.0.1:6379
+33023:S 13 Aug 2021 13:12:24.760 * MASTER <-> REPLICA sync started
+33023:S 13 Aug 2021 13:12:24.760 # Error condition on socket for SYNC: Connection refused
+33023:S 13 Aug 2021 13:12:25.788 * Connecting to MASTER 127.0.0.1:6379
+33023:S 13 Aug 2021 13:12:25.788 * MASTER <-> REPLICA sync started
+33023:S 13 Aug 2021 13:12:25.788 # Error condition on socket for SYNC: Connection refused
+33023:M 13 Aug 2021 13:12:25.984 * Discarding previously cached master state.
+33023:M 13 Aug 2021 13:12:25.984 # Setting secondary replication ID to f469f8a4a6577d41dfdc274a80697afe11ce760e, valid up to offset: 3484. New replication ID is bbd5236a4e3b6b4f76c13d1494332da9bec283c9
+33023:M 13 Aug 2021 13:12:25.984 * MASTER MODE enabled (user request from 'id=7 addr=127.0.0.1:58416 laddr=127.0.0.1:6380 fd=11 name=sentinel-1e004441-cmd age=24 idle=0 flags=x db=0 sub=0 psub=0 multi=4 qbuf=202 qbuf-free=65328 argv-mem=4 obl=45 oll=0 omem=0 tot-mem=82980 events=r cmd=exec user=default redir=-1')
+33023:M 13 Aug 2021 13:12:25.986 # CONFIG REWRITE executed with success.
+
+33023:M 13 Aug 2021 13:12:43.338 * Replica 127.0.0.1:6379 asks for synchronization
+33023:M 13 Aug 2021 13:12:43.338 * Partial resynchronization not accepted: Replication ID mismatch (Replica asked for 'f98d60e30f8a2f14d3d34dddeb4f6ce8e9bf9d74', my replication IDs are 'bbd5236a4e3b6b4f76c13d1494332da9bec283c9' and 'f469f8a4a6577d41dfdc274a80697afe11ce760e')
+33023:M 13 Aug 2021 13:12:43.338 * Starting BGSAVE for SYNC with target: disk
+33023:M 13 Aug 2021 13:12:43.339 * Background saving started by pid 33034
+33034:C 13 Aug 2021 13:12:43.340 * DB saved on disk
+33023:M 13 Aug 2021 13:12:43.437 * Background saving terminated with success
+33023:M 13 Aug 2021 13:12:43.438 * Synchronization with replica 127.0.0.1:6379 succeeded
+
+33023:M 13 Aug 2021 13:19:51.143 # Connection with replica 127.0.0.1:6379 lost.
+^C33023:signal-handler (1628840993) Received SIGINT scheduling shutdown...
+33023:M 13 Aug 2021 13:19:53.071 # User requested shutdown...
+33023:M 13 Aug 2021 13:19:53.071 * Saving the final RDB snapshot before exiting.
+33023:M 13 Aug 2021 13:19:53.072 * DB saved on disk
+33023:M 13 Aug 2021 13:19:53.073 # Redis is now ready to exit, bye bye...
+3.2 $
+```
+
+Sentinel 1 logs
+
+```bash
+3.3 $ redis-sentinel sentinel1.conf
+33025:X 13 Aug 2021 13:11:58.636 # oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
+33025:X 13 Aug 2021 13:11:58.636 # Redis version=6.2.5, bits=64, commit=00000000, modified=0, pid=33025, just started
+33025:X 13 Aug 2021 13:11:58.636 # Configuration loaded
+33025:X 13 Aug 2021 13:11:58.637 * Increased maximum number of open files to 10032 (it was originally set to 256).
+33025:X 13 Aug 2021 13:11:58.637 * monotonic clock: POSIX clock_gettime
+                _._
+           _.-``__ ''-._
+      _.-``    `.  `_.  ''-._           Redis 6.2.5 (00000000/0) 64 bit
+  .-`` .-```.  ```\/    _.,_ ''-._
+ (    '      ,       .-`  | `,    )     Running in sentinel mode
+ |`-._`-...-` __...-.``-._|'` _.-'|     Port: 5000
+ |    `-._   `._    /     _.-'    |     PID: 33025
+  `-._    `-._  `-./  _.-'    _.-'
+ |`-._`-._    `-.__.-'    _.-'_.-'|
+ |    `-._`-._        _.-'_.-'    |           https://redis.io
+  `-._    `-._`-.__.-'_.-'    _.-'
+ |`-._`-._    `-.__.-'    _.-'_.-'|
+ |    `-._`-._        _.-'_.-'    |
+  `-._    `-._`-.__.-'_.-'    _.-'
+      `-._    `-.__.-'    _.-'
+          `-._        _.-'
+              `-.__.-'
+
+33025:X 13 Aug 2021 13:11:58.641 # Sentinel ID is 0fa1952891cc513ca3235afa4e5469eaee2413e0
+33025:X 13 Aug 2021 13:11:58.641 # +monitor master mymaster 127.0.0.1 6379 quorum 2
+33025:X 13 Aug 2021 13:11:58.641 * +slave slave 127.0.0.1:6380 127.0.0.1 6380 @ mymaster 127.0.0.1 6379
+33025:X 13 Aug 2021 13:12:03.686 * +sentinel sentinel 1e004441c2236a4c99a5d1613e0a1097a7e51de0 127.0.0.1 5001 @ mymaster 127.0.0.1 6379
+33025:X 13 Aug 2021 13:12:07.372 * +sentinel sentinel 44a5d0527508cde7f51b13c0c2e5a9f92f2c06c4 127.0.0.1 5002 @ mymaster 127.0.0.1 6379
+33025:X 13 Aug 2021 13:12:25.703 # +sdown master mymaster 127.0.0.1 6379
+33025:X 13 Aug 2021 13:12:25.760 # +new-epoch 1
+33025:X 13 Aug 2021 13:12:25.762 # +vote-for-leader 1e004441c2236a4c99a5d1613e0a1097a7e51de0 1
+33025:X 13 Aug 2021 13:12:25.762 # +odown master mymaster 127.0.0.1 6379 #quorum 3/2
+33025:X 13 Aug 2021 13:12:25.762 # Next failover delay: I will not start a failover before Fri Aug 13 13:14:26 2021
+33025:X 13 Aug 2021 13:12:26.062 # +config-update-from sentinel 1e004441c2236a4c99a5d1613e0a1097a7e51de0 127.0.0.1 5001 @ mymaster 127.0.0.1 6379
+33025:X 13 Aug 2021 13:12:26.062 # +switch-master mymaster 127.0.0.1 6379 127.0.0.1 6380
+33025:X 13 Aug 2021 13:12:26.062 * +slave slave 127.0.0.1:6379 127.0.0.1 6379 @ mymaster 127.0.0.1 6380
+33025:X 13 Aug 2021 13:12:31.068 # +sdown slave 127.0.0.1:6379 127.0.0.1 6379 @ mymaster 127.0.0.1 6380
+33025:X 13 Aug 2021 13:12:33.477 # -sdown slave 127.0.0.1:6379 127.0.0.1 6379 @ mymaster 127.0.0.1 6380
+33025:X 13 Aug 2021 13:19:56.255 # +sdown slave 127.0.0.1:6379 127.0.0.1 6379 @ mymaster 127.0.0.1 6380
+33025:X 13 Aug 2021 13:19:58.087 # +sdown master mymaster 127.0.0.1 6380
+33025:X 13 Aug 2021 13:19:58.268 # +new-epoch 2
+33025:X 13 Aug 2021 13:19:58.270 # +vote-for-leader 1e004441c2236a4c99a5d1613e0a1097a7e51de0 2
+33025:X 13 Aug 2021 13:19:59.180 # +odown master mymaster 127.0.0.1 6380 #quorum 3/2
+33025:X 13 Aug 2021 13:19:59.180 # Next failover delay: I will not start a failover before Fri Aug 13 13:21:59 2021
+^C33025:signal-handler (1628840999) Received SIGINT scheduling shutdown...
+33025:X 13 Aug 2021 13:19:59.726 # User requested shutdown...
+33025:X 13 Aug 2021 13:19:59.726 # Sentinel is now ready to exit, bye bye...
+3.3 $
+```
+
+Sentinel 2 logs
+
+```bash
+3.3 $ redis-sentinel sentinel2.conf
+33026:X 13 Aug 2021 13:12:01.626 # oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
+33026:X 13 Aug 2021 13:12:01.626 # Redis version=6.2.5, bits=64, commit=00000000, modified=0, pid=33026, just started
+33026:X 13 Aug 2021 13:12:01.626 # Configuration loaded
+33026:X 13 Aug 2021 13:12:01.627 * Increased maximum number of open files to 10032 (it was originally set to 256).
+33026:X 13 Aug 2021 13:12:01.627 * monotonic clock: POSIX clock_gettime
+                _._
+           _.-``__ ''-._
+      _.-``    `.  `_.  ''-._           Redis 6.2.5 (00000000/0) 64 bit
+  .-`` .-```.  ```\/    _.,_ ''-._
+ (    '      ,       .-`  | `,    )     Running in sentinel mode
+ |`-._`-...-` __...-.``-._|'` _.-'|     Port: 5001
+ |    `-._   `._    /     _.-'    |     PID: 33026
+  `-._    `-._  `-./  _.-'    _.-'
+ |`-._`-._    `-.__.-'    _.-'_.-'|
+ |    `-._`-._        _.-'_.-'    |           https://redis.io
+  `-._    `-._`-.__.-'_.-'    _.-'
+ |`-._`-._    `-.__.-'    _.-'_.-'|
+ |    `-._`-._        _.-'_.-'    |
+  `-._    `-._`-.__.-'_.-'    _.-'
+      `-._    `-.__.-'    _.-'
+          `-._        _.-'
+              `-.__.-'
+
+33026:X 13 Aug 2021 13:12:01.630 # Sentinel ID is 1e004441c2236a4c99a5d1613e0a1097a7e51de0
+33026:X 13 Aug 2021 13:12:01.630 # +monitor master mymaster 127.0.0.1 6379 quorum 2
+33026:X 13 Aug 2021 13:12:01.631 * +slave slave 127.0.0.1:6380 127.0.0.1 6380 @ mymaster 127.0.0.1 6379
+33026:X 13 Aug 2021 13:12:02.747 * +sentinel sentinel 0fa1952891cc513ca3235afa4e5469eaee2413e0 127.0.0.1 5000 @ mymaster 127.0.0.1 6379
+33026:X 13 Aug 2021 13:12:07.372 * +sentinel sentinel 44a5d0527508cde7f51b13c0c2e5a9f92f2c06c4 127.0.0.1 5002 @ mymaster 127.0.0.1 6379
+33026:X 13 Aug 2021 13:12:25.703 # +sdown master mymaster 127.0.0.1 6379
+33026:X 13 Aug 2021 13:12:25.757 # +odown master mymaster 127.0.0.1 6379 #quorum 3/2
+33026:X 13 Aug 2021 13:12:25.757 # +new-epoch 1
+33026:X 13 Aug 2021 13:12:25.757 # +try-failover master mymaster 127.0.0.1 6379
+33026:X 13 Aug 2021 13:12:25.759 # +vote-for-leader 1e004441c2236a4c99a5d1613e0a1097a7e51de0 1
+33026:X 13 Aug 2021 13:12:25.762 # 44a5d0527508cde7f51b13c0c2e5a9f92f2c06c4 voted for 1e004441c2236a4c99a5d1613e0a1097a7e51de0 1
+33026:X 13 Aug 2021 13:12:25.762 # 0fa1952891cc513ca3235afa4e5469eaee2413e0 voted for 1e004441c2236a4c99a5d1613e0a1097a7e51de0 1
+33026:X 13 Aug 2021 13:12:25.816 # +elected-leader master mymaster 127.0.0.1 6379
+33026:X 13 Aug 2021 13:12:25.816 # +failover-state-select-slave master mymaster 127.0.0.1 6379
+33026:X 13 Aug 2021 13:12:25.897 # +selected-slave slave 127.0.0.1:6380 127.0.0.1 6380 @ mymaster 127.0.0.1 6379
+33026:X 13 Aug 2021 13:12:25.897 * +failover-state-send-slaveof-noone slave 127.0.0.1:6380 127.0.0.1 6380 @ mymaster 127.0.0.1 6379
+33026:X 13 Aug 2021 13:12:25.984 * +failover-state-wait-promotion slave 127.0.0.1:6380 127.0.0.1 6380 @ mymaster 127.0.0.1 6379
+33026:X 13 Aug 2021 13:12:25.987 # +promoted-slave slave 127.0.0.1:6380 127.0.0.1 6380 @ mymaster 127.0.0.1 6379
+33026:X 13 Aug 2021 13:12:25.987 # +failover-state-reconf-slaves master mymaster 127.0.0.1 6379
+33026:X 13 Aug 2021 13:12:26.060 # +failover-end master mymaster 127.0.0.1 6379
+33026:X 13 Aug 2021 13:12:26.060 # +switch-master mymaster 127.0.0.1 6379 127.0.0.1 6380
+33026:X 13 Aug 2021 13:12:26.060 * +slave slave 127.0.0.1:6379 127.0.0.1 6379 @ mymaster 127.0.0.1 6380
+33026:X 13 Aug 2021 13:12:31.064 # +sdown slave 127.0.0.1:6379 127.0.0.1 6379 @ mymaster 127.0.0.1 6380
+33026:X 13 Aug 2021 13:12:33.412 # -sdown slave 127.0.0.1:6379 127.0.0.1 6379 @ mymaster 127.0.0.1 6380
+
+33026:X 13 Aug 2021 13:12:43.335 * +convert-to-slave slave 127.0.0.1:6379 127.0.0.1 6379 @ mymaster 127.0.0.1 6380
+33026:X 13 Aug 2021 13:19:56.249 # +sdown slave 127.0.0.1:6379 127.0.0.1 6379 @ mymaster 127.0.0.1 6380
+33026:X 13 Aug 2021 13:19:58.188 # +sdown master mymaster 127.0.0.1 6380
+33026:X 13 Aug 2021 13:19:58.264 # +odown master mymaster 127.0.0.1 6380 #quorum 2/2
+33026:X 13 Aug 2021 13:19:58.264 # +new-epoch 2
+33026:X 13 Aug 2021 13:19:58.264 # +try-failover master mymaster 127.0.0.1 6380
+33026:X 13 Aug 2021 13:19:58.267 # +vote-for-leader 1e004441c2236a4c99a5d1613e0a1097a7e51de0 2
+33026:X 13 Aug 2021 13:19:58.270 # 44a5d0527508cde7f51b13c0c2e5a9f92f2c06c4 voted for 1e004441c2236a4c99a5d1613e0a1097a7e51de0 2
+33026:X 13 Aug 2021 13:19:58.270 # 0fa1952891cc513ca3235afa4e5469eaee2413e0 voted for 1e004441c2236a4c99a5d1613e0a1097a7e51de0 2
+33026:X 13 Aug 2021 13:19:58.329 # +elected-leader master mymaster 127.0.0.1 6380
+33026:X 13 Aug 2021 13:19:58.330 # +failover-state-select-slave master mymaster 127.0.0.1 6380
+33026:X 13 Aug 2021 13:19:58.388 # -failover-abort-no-good-slave master mymaster 127.0.0.1 6380
+33026:X 13 Aug 2021 13:19:58.461 # Next failover delay: I will not start a failover before Fri Aug 13 13:21:58 2021
+^C33026:signal-handler (1628841001) Received SIGINT scheduling shutdown...
+33026:X 13 Aug 2021 13:20:01.734 # User requested shutdown...
+33026:X 13 Aug 2021 13:20:01.734 # Sentinel is now ready to exit, bye bye...
+3.3 $
+```
+
+Sentinel 3 logs
+
+```bash
+3.3 $ redis-sentinel sentinel3.conf
+33027:X 13 Aug 2021 13:12:05.363 # oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
+33027:X 13 Aug 2021 13:12:05.363 # Redis version=6.2.5, bits=64, commit=00000000, modified=0, pid=33027, just started
+33027:X 13 Aug 2021 13:12:05.363 # Configuration loaded
+33027:X 13 Aug 2021 13:12:05.364 * Increased maximum number of open files to 10032 (it was originally set to 256).
+33027:X 13 Aug 2021 13:12:05.364 * monotonic clock: POSIX clock_gettime
+                _._
+           _.-``__ ''-._
+      _.-``    `.  `_.  ''-._           Redis 6.2.5 (00000000/0) 64 bit
+  .-`` .-```.  ```\/    _.,_ ''-._
+ (    '      ,       .-`  | `,    )     Running in sentinel mode
+ |`-._`-...-` __...-.``-._|'` _.-'|     Port: 5002
+ |    `-._   `._    /     _.-'    |     PID: 33027
+  `-._    `-._  `-./  _.-'    _.-'
+ |`-._`-._    `-.__.-'    _.-'_.-'|
+ |    `-._`-._        _.-'_.-'    |           https://redis.io
+  `-._    `-._`-.__.-'_.-'    _.-'
+ |`-._`-._    `-.__.-'    _.-'_.-'|
+ |    `-._`-._        _.-'_.-'    |
+  `-._    `-._`-.__.-'_.-'    _.-'
+      `-._    `-.__.-'    _.-'
+          `-._        _.-'
+              `-.__.-'
+
+33027:X 13 Aug 2021 13:12:05.367 # Sentinel ID is 44a5d0527508cde7f51b13c0c2e5a9f92f2c06c4
+33027:X 13 Aug 2021 13:12:05.367 # +monitor master mymaster 127.0.0.1 6379 quorum 2
+33027:X 13 Aug 2021 13:12:05.368 * +slave slave 127.0.0.1:6380 127.0.0.1 6380 @ mymaster 127.0.0.1 6379
+33027:X 13 Aug 2021 13:12:05.757 * +sentinel sentinel 1e004441c2236a4c99a5d1613e0a1097a7e51de0 127.0.0.1 5001 @ mymaster 127.0.0.1 6379
+33027:X 13 Aug 2021 13:12:06.880 * +sentinel sentinel 0fa1952891cc513ca3235afa4e5469eaee2413e0 127.0.0.1 5000 @ mymaster 127.0.0.1 6379
+33027:X 13 Aug 2021 13:12:25.703 # +sdown master mymaster 127.0.0.1 6379
+33027:X 13 Aug 2021 13:12:25.760 # +new-epoch 1
+33027:X 13 Aug 2021 13:12:25.762 # +vote-for-leader 1e004441c2236a4c99a5d1613e0a1097a7e51de0 1
+33027:X 13 Aug 2021 13:12:25.766 # +odown master mymaster 127.0.0.1 6379 #quorum 3/2
+33027:X 13 Aug 2021 13:12:25.766 # Next failover delay: I will not start a failover before Fri Aug 13 13:14:26 2021
+33027:X 13 Aug 2021 13:12:26.062 # +config-update-from sentinel 1e004441c2236a4c99a5d1613e0a1097a7e51de0 127.0.0.1 5001 @ mymaster 127.0.0.1 6379
+33027:X 13 Aug 2021 13:12:26.062 # +switch-master mymaster 127.0.0.1 6379 127.0.0.1 6380
+33027:X 13 Aug 2021 13:12:26.062 * +slave slave 127.0.0.1:6379 127.0.0.1 6379 @ mymaster 127.0.0.1 6380
+33027:X 13 Aug 2021 13:12:31.069 # +sdown slave 127.0.0.1:6379 127.0.0.1 6379 @ mymaster 127.0.0.1 6380
+33027:X 13 Aug 2021 13:12:33.506 # -sdown slave 127.0.0.1:6379 127.0.0.1 6379 @ mymaster 127.0.0.1 6380
+33027:X 13 Aug 2021 13:19:56.226 # +sdown slave 127.0.0.1:6379 127.0.0.1 6379 @ mymaster 127.0.0.1 6380
+33027:X 13 Aug 2021 13:19:58.211 # +sdown master mymaster 127.0.0.1 6380
+33027:X 13 Aug 2021 13:19:58.268 # +new-epoch 2
+33027:X 13 Aug 2021 13:19:58.270 # +vote-for-leader 1e004441c2236a4c99a5d1613e0a1097a7e51de0 2
+33027:X 13 Aug 2021 13:19:58.284 # +odown master mymaster 127.0.0.1 6380 #quorum 3/2
+33027:X 13 Aug 2021 13:19:58.284 # Next failover delay: I will not start a failover before Fri Aug 13 13:21:58 2021
+^C33027:signal-handler (1628841003) Received SIGINT scheduling shutdown...
+33027:X 13 Aug 2021 13:20:03.266 # User requested shutdown...
+33027:X 13 Aug 2021 13:20:03.266 # Sentinel is now ready to exit, bye bye...
+3.3 $
+```
+
+This time the primary config file initially looked like this -
+
+```
+# Create a strong password here
+requirepass "a_strong_password"
+
+# AUTH password of the primary instance in case this instance becomes a replica
+masterauth "a_strong_password"
+
+# Enable AOF file persistence
+appendonly yes
+
+# Choose a name for the AOF file
+appendfilename "primary.aof"
+```
+
+Previously it looked like the below when I was trying based on Redis university exercise and it failed that time -
+
+```
+# Create a strong password here
+requirepass a_strong_password
+
+# Enable AOF file persistence
+appendonly yes
+
+# Choose a name for the AOF file
+appendfilename "primary.aof"
+```
