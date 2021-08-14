@@ -2035,3 +2035,13 @@ So, this section talks about the consistency. It mentions about some problems, a
 ---
 
 Next up is the section - https://redis.io/topics/sentinel#sentinel-persistent-state
+
+Well, this was pretty straight forward. Sentinel state is persisted - it's persisted on disk, the usual. And it's the sentinel's configuration file itself, where the state is persisted. That's all! Simple!
+
+---
+
+Next up is the section - https://redis.io/topics/sentinel#tilt-mode and that's the last section :D :D
+
+Ah, this is about timing and how Sentinel depdends on the computer's timing to understand when was the last ping from the master received, and stuff like that. So, basically, a reference for time, to do time difference etc
+
+
