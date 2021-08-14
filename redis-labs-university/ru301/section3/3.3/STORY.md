@@ -1866,3 +1866,172 @@ appendonly yes
 # Choose a name for the AOF file
 appendfilename "primary.aof"
 ```
+
+---
+
+I'm currently reading https://redis.io/topics/sentinel#sentinels-and-replicas-auto-discovery
+
+And now this https://redis.io/topics/sentinel#sentinel-reconfiguration-of-instances-outside-the-failover-procedure
+
+The section https://redis.io/topics/sentinel#sentinel-reconfiguration-of-instances-outside-the-failover-procedure is an interesting one!! :)
+
+I was just thinking how it could be a bit more detailed. I like detailed examples. Let's look at two examples that the section talks about.
+
+First example -
+
+Let's say there's one primary, say instance A and one replica, say instance B. Both are up and running and the replication is all good.
+
+Suddenly the primary goes down. The primary redis instance process is dead. It's down for so much time that the sentinels monitoring the primary and the replica detect the primary instance's failure and do a failover. The replica becomes primary now, that is instance B becomes primary. Mind you, instance A is still down
+
+Now, after some time instance A comes back up because a process manager notices that the redis instance is down and it revives it backup. When instance A is back, according to it's configuration, it's not replicating from anyone, so it's a primary!
+
+But that's wrong! According to the sentinels that did the failover, A is now a replica and B is the primary. But according to A, A is the primary. Of course the clients accessing the system would have support to talk to Sentinel and would talk to B, which is the latest primary. Now, how do we ensure that A is replicating from B? Well that's where Sentinel comes into play and does it's job. Sentinel will always monitor all the instances - all the master(s) / primary/primaries it's monitoring and their corresponding replica(s). Sentinel will see that instance A is back and reconfigure it to replicate from the latest primary which is instance B
+
+That's what the section https://redis.io/topics/sentinel#sentinel-reconfiguration-of-instances-outside-the-failover-procedure tells when it says 
+
+`Even when no failover is in progress, Sentinels will always try to set the current configuration on monitored instances.`
+
+`Replicas (according to the current configuration) that claim to be masters, will be configured as replicas to replicate with the current master.`
+
+`Masters failed over are reconfigured as replicas when they return available.`
+
+According to the current configuration, A is a replica, and B is a primary. So, if A, a replica, claims itself to be a master / primary, that is that it's not replicating from anyone (`replicaof no one`) then that's wrong according to the current configuration and hence A will be reconfigured as a replica to replicate from the current master / primary which is instance B
+
+I wonder what happens if the master / primary is not reachable by all the sentinels because of a network issue - say a network partition, but the replica is reachable. I guess even in that case the replica will be promoted as primary and later when the network partition / network issue is resolved, when the old master / old primary is back, it will be reconfigured as a replica to the new primary / new master!
+
+Let's look at another example. Second example -
+
+Let's say there's one primary, instance A, and two replicas, instance B and instance C.
+
+Let's say instance C goes down or there is some network issue / network partition and the sentinels are not able to reach the instance C and instance C is also not able to reach instance A the primary, or instance B the other replica. Kind of like a network partition or some network issue isolating just instance C, or this could happen if instance C is down too.
+
+Now, in the mean time, say instance A is down too, or has a network issue too, causing sentinels, and instance B to not be able to reach instance A. But sentinels can reach instance B and instance B is up.
+
+Now what happens is, instance B is promoted to primary. When instance A is back online in case it was down, or back online in case it was some network issue / network partition etc, the sentinels will reconfigure instance A, which thinks itself to be a primary, as a replica to instance B, the new primary. When instance C is back online, in case it was down, or back online in case it was some network issue / network partition etc, the sentinels will reconfigure instance C too, which think itself to be a replica replicating from instance A which was the primary when instance C was online previously but now instance A is an old primary and presently actually a replica, so sentinels will reconfigure instance C to replica from the new primary which is instance B
+
+I think this is what the section mentions when it says
+
+`Even when no failover is in progress, Sentinels will always try to set the current configuration on monitored instances.`
+
+`Replicas connected to a wrong master, will be reconfigured to replicate with the right master.`
+
+`Replicas partitioned away during a partition are reconfigured once reachable.`
+
+Pretty cool huh? :D :)
+
+---
+
+Next up in my reading is
+
+https://redis.io/topics/sentinel#replica-selection-and-priority
+
+I noticed one small possible issue in this section. I have asked if it's really an issue to folks in the discord channel, let's see. I asked this -
+
+I have a question regarding a section in the Sentinel docs  - https://redis.io/topics/sentinel#replica-selection-and-priority . It says -
+
+```
+Redis masters (that may be turned into replicas after a failover), and replicas, all must be configured with a replica-priority if there are machines to be strongly preferred. Otherwise all the instances can run with the default run ID (which is the suggested setup, since it is far more interesting to select the replica by replication offset).
+```
+
+Note the `Otherwise all the instances can run with the default run ID` . `default run ID` ? Shouldn't it be `default replica-priority` ? Let me know if it's an issue, then I can file an issue in the docs repo and raise  a PR for it
+
+---
+
+Next up in my reading is
+
+https://redis.io/topics/sentinel#algorithms-and-internals
+
+First section of it being
+
+https://redis.io/topics/sentinel#quorum
+
+So, a big quorum can affect both failure detection stage and also the authorization stage for failover.
+
+In any case, in failover stage, authorization is required by max(majority, quorum) I guess
+
+Maybe for master's failure detection stage, min(quorum, majority) need to agree that the master is down
+
+majority being = (number of sentinels / 2) + 1
+
+(number of sentinels / 2) must be an integer. So, if number of sentinels is 5, then 5 / 2 = 2 . We round it down!
+
+Next on to the section - 
+
+https://redis.io/topics/sentinel#configuration-epochs
+
+This is an interesting section. This talks about versioning the configuration of the system I think using a version number called the configuration epoch. Configuration of the system as in - configuration about which is the master and which are the replicas, for a given master configuration in sentinels. Something for me to verify [TODO]
+
+Apparently all the sentinels don't try to do a failover at the same time. Makes sense! Failover has to be done once for one master failure, and it's better to let just one sentinel process to do it. For this the sentinel trying to do the failover gets authorization / permission from other sentinels - a majority of them and then tries to a failover. What if the failover attempt fails due to some reason? Some weird bug or issue, or sentinel goes down in the process of the failover - where it's partially in between. So, another sentinel can retry after sometime.
+
+So, basically, we need to be sure that the system - the group of sentinels, will surely do a failover, when a master is down. So this is what is the liveness property
+
+`Redis Sentinel guarantees the liveness property that if a majority of Sentinels are able to talk, eventually one will be authorized to failover if the master is down.`
+
+As long as majority of sentinels are up and running and are able to communicate with each other, one of them will be able to do a failover if master goes down
+
+And there's also the safety property
+
+`Redis Sentinel also guarantees the safety property that every Sentinel will failover the same master using a different configuration epoch.`
+
+I guess this is about multiple sentinels trying to do a failover at the same time? So, one sentinel gets an authorization and gets a unique configuration epoch number, for a given master, with a list of sentinels monitoring, and for a given configuration epoch, only one sentinel will try to do a failover. If another sentinel tries to do a failover for the same master, it will use a different configuration epoch! :) Hmm
+
+I can see some "epoch" related configurations in the sentinel configuration file, hmm
+
+```
+sentinel config-epoch mymaster 1
+sentinel leader-epoch mymaster 2
+sentinel current-epoch 2
+```
+
+I can also see some epoch based leader election in sentinel logs -
+
+```bash
+33026:X 13 Aug 2021 13:12:25.757 # +new-epoch 1
+33026:X 13 Aug 2021 13:12:25.757 # +try-failover master mymaster 127.0.0.1 6379
+33026:X 13 Aug 2021 13:12:25.759 # +vote-for-leader 1e004441c2236a4c99a5d1613e0a1097a7e51de0 1
+33026:X 13 Aug 2021 13:12:25.762 # 44a5d0527508cde7f51b13c0c2e5a9f92f2c06c4 voted for 1e004441c2236a4c99a5d1613e0a1097a7e51de0 1
+33026:X 13 Aug 2021 13:12:25.762 # 0fa1952891cc513ca3235afa4e5469eaee2413e0 voted for 1e004441c2236a4c99a5d1613e0a1097a7e51de0 1
+33026:X 13 Aug 2021 13:12:25.816 # +elected-leader master mymaster 127.0.0.1 6379
+```
+
+I think the voting happens with - sentinel run ID AND epoch. Something to verify [TODO] - 
+
+`+vote-for-leader 1e004441c2236a4c99a5d1613e0a1097a7e51de0 1`
+
+I think the `1` denotes the epoch
+
+Notice the `+new-epoch 1` 
+
+I think it's like Raft consensus algorithm's leader election and other stuff, where `term` is used. Here it's called `epoch` I guess
+
+Note how it also shows if the sentinel has become leader, the above logs show that the sentinel giving out the logs is elected as the leader `+elected-leader master mymaster 127.0.0.1 6379`
+
+---
+
+The next section I was reading was https://redis.io/topics/sentinel#configuration-propagation
+
+This is interesting, it says that the failover is considered successful once the selected replica becomes a master / is promoted to master. And after this the sentinel that did the failover has to propagate the new configuration to all the other sentinels, and this is done through pub sub messages, and it uses the master AND replica's pub sub messaging it seems. That's a lot of them. Anyways, so, how the other sentinels understand if a configuration / information is old / new is through the configuration epoch. A greater / bigger / larger configuration epoch number means newer information
+
+So I guess that's how configuration is marked as obsolete - using configuration epoch numbers
+
+---
+
+The next section I'm gonna read is - https://redis.io/topics/sentinel#consistency-under-partitions
+
+Ah. CAP theorem stuff. Choosing consitency over availability in the face of partitions
+
+Interesting! I see references to other open source projects
+
+https://github.com/soundcloud/roshi [TODO]
+
+https://github.com/Netflix/dynomite [TODO]
+
+and a research paper - the Dynamo DB research paper! http://www.allthingsdistributed.com/files/amazon-dynamo-sosp2007.pdf [TODO]
+
+Also, I might have to checkout about Memcached later [TODO] http://www.memcached.org/
+
+So, this section talks about the consistency. It mentions about some problems, and how it can be solved. But Redis doesn't provide those solutions on it's own. Something to checkout more about and think on - the consistency and tradeoffs [TODO]
+
+---
+
+Next up is the section - https://redis.io/topics/sentinel#sentinel-persistent-state
