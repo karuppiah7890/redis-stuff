@@ -98,3 +98,15 @@ redis-stuff $
 There IS something called `rebalance`. I don't know what it does, hmm. Anyways, let's move on to the next section for now ;)
 
 Next is https://redis.io/topics/cluster-spec#performance
+
+I read performance stuff a bit, and then
+
+https://redis.io/topics/cluster-spec#why-merge-operations-are-avoided
+
+https://redis.io/topics/cluster-spec#keys-distribution-model
+
+Now I'm midway
+
+https://redis.io/topics/cluster-spec#keys-hash-tags
+
+Planning to check a bit of section 5 and then get back
