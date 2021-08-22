@@ -23,3 +23,11 @@ https://github.com/RedisLabs/memtier_benchmark
 # redis auto scaling
 
 https://github.com/adenda/maestro
+
+# Redis Twemproxy project
+
+https://github.com/twitter/twemproxy
+
+# Redis Cluster Proxy
+
+https://github.com/RedisLabs/redis-cluster-proxy
