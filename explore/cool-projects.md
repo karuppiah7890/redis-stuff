@@ -31,3 +31,11 @@ https://github.com/twitter/twemproxy
 # Redis Cluster Proxy
 
 https://github.com/RedisLabs/redis-cluster-proxy
+
+# Apache Geode
+
+I heard recently that Geode can act like a Redis
+
+http://geode.apache.org/
+
+More over here - [Apache Geode](./apache-geode.md)
