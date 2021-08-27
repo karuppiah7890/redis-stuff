@@ -39,3 +39,7 @@ I heard recently that Geode can act like a Redis
 http://geode.apache.org/
 
 More over here - [Apache Geode](./apache-geode.md)
+
+# Miniredis - Redis implemented (partially) in Go
+
+https://github.com/alicebob/miniredis
