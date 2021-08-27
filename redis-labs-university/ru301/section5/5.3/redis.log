@@ -1,0 +1,13 @@
+52083:C 27 Aug 2021 21:56:05.020 # oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
+52083:C 27 Aug 2021 21:56:05.020 # Redis version=6.2.5, bits=64, commit=00000000, modified=0, pid=52083, just started
+52083:C 27 Aug 2021 21:56:05.021 # Configuration loaded
+52083:M 27 Aug 2021 21:56:05.022 * Increased maximum number of open files to 10032 (it was originally set to 256).
+52083:M 27 Aug 2021 21:56:05.022 * monotonic clock: POSIX clock_gettime
+52083:M 27 Aug 2021 21:56:05.023 * Running mode=standalone, port=6379.
+52083:M 27 Aug 2021 21:56:05.023 # Server initialized
+52083:M 27 Aug 2021 21:56:05.023 * Ready to accept connections
+52083:signal-handler (1630081642) Received SIGINT scheduling shutdown...
+52083:M 27 Aug 2021 21:57:22.493 # User requested shutdown...
+52083:M 27 Aug 2021 21:57:22.493 * Saving the final RDB snapshot before exiting.
+52083:M 27 Aug 2021 21:57:22.493 * DB saved on disk
+52083:M 27 Aug 2021 21:57:22.494 # Redis is now ready to exit, bye bye...
