@@ -43,3 +43,7 @@ More over here - [Apache Geode](./apache-geode.md)
 # Miniredis - Redis implemented (partially) in Go
 
 https://github.com/alicebob/miniredis
+
+# Codis
+
+https://github.com/CodisLabs/codis
