@@ -47,3 +47,7 @@ https://github.com/alicebob/miniredis
 # Codis
 
 https://github.com/CodisLabs/codis
+
+# Redis Operators
+
+- https://github.com/OT-CONTAINER-KIT/redis-operator
