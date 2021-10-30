@@ -1,5 +1,7 @@
 # Redis Modules
 
+https://redis.io/topics/modules-intro
+
 All are mentioned here https://redislabs.com/community/oss-projects/
 
 ## Redis Search
@@ -9,6 +11,8 @@ Open Source Code - https://github.com/RediSearch/RediSearch
 Website - https://redisearch.io/ or https://oss.redislabs.com/redisearch/
 
 https://docs.redislabs.com/latest/modules/redisearch/
+
+https://github.com/RediSearch/redisearch-api-rs
 
 ## Redis Time Series
 
@@ -50,3 +54,5 @@ https://redisgears.io or https://oss.redislabs.com/redisgears/
 ## Misc modules
 
 Lot of them listed here - https://redis.io/modules
+
+https://github.com/RedisLabsModules

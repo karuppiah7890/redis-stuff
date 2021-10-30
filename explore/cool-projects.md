@@ -51,3 +51,9 @@ https://github.com/CodisLabs/codis
 # Redis Operators
 
 - https://github.com/OT-CONTAINER-KIT/redis-operator
+
+# Rust API for Redis Modules
+
+https://engineering.redis.com/posts/using-the-redis-allocator-in-rust/
+
+https://github.com/RedisLabsModules/redismodule-rs
