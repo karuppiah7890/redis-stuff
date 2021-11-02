@@ -13,3 +13,4 @@ If I deploy a Redis myself or get a DBaaS service to deploy Redis for me, I thin
 While deploying, I would think about the following configurations to provide
 - Is my Redis gonna run as a cache (not persistent) / data store (persistent)?
 - What's the max memory eviction policy of my Redis?
+- What's the max memory value for Redis? Is there enough memory available for the OS and other processes running in the system?
